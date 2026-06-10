@@ -2,12 +2,12 @@
 // Configuration for enterable port-o-potties
 
 const PORTO_POTTY_CONFIGS = {
-    portoLetty1: {
+        portoLetty1: {
         exterior: { x: 99, y: 0, width: 2, height: 3, map: 'outside' },
         interior: { x: 73, y: 54, width: 4, height: 4, map: 'portoLetty1Interior' },
         doorTiles: [{ x: 75, y: 57 }],
         spawns: {
-            onEnter: { x: 74, y: 55, facing: 'down' },
+            onEnter: { x: 75, y: 56, facing: 'up' },
             onExit: { x: 100, y: 3, facing: 'down' }
         },
         locked: false
@@ -17,7 +17,7 @@ const PORTO_POTTY_CONFIGS = {
         interior: { x: 73, y: 54, width: 4, height: 4, map: 'portoLetty2Interior' },
         doorTiles: [{ x: 75, y: 57 }],
         spawns: {
-            onEnter: { x: 74, y: 55, facing: 'down' },
+            onEnter: { x: 75, y: 56, facing: 'up' },
             onExit: { x: 102, y: 3, facing: 'down' }
         },
         locked: true,
@@ -28,7 +28,7 @@ const PORTO_POTTY_CONFIGS = {
         interior: { x: 73, y: 54, width: 4, height: 4, map: 'portoLetty3Interior' },
         doorTiles: [{ x: 75, y: 57 }],
         spawns: {
-            onEnter: { x: 74, y: 55, facing: 'down' },
+            onEnter: { x: 75, y: 56, facing: 'up' },
             onExit: { x: 104, y: 3, facing: 'down' }
         },
         locked: false
