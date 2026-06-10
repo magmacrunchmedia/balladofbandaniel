@@ -4,7 +4,7 @@
 const PORTO_POTTY_CONFIGS = {
         portoLetty1: {
         exterior: { x: 99, y: 0, width: 2, height: 3, map: 'outside' },
-        interior: { x: 73, y: 54, width: 4, height: 4, map: 'portoLetty1Interior' },
+        interior: { x: 73, y: 54, width: 4, height: 5, map: 'portoLetty1Interior' },
         doorTiles: [{ x: 75, y: 57 }],
         spawns: {
             onEnter: { x: 75, y: 56, facing: 'up' },
@@ -14,7 +14,7 @@ const PORTO_POTTY_CONFIGS = {
     },
     portoLetty2: {
         exterior: { x: 101, y: 0, width: 2, height: 3, map: 'outside' },
-        interior: { x: 73, y: 54, width: 4, height: 4, map: 'portoLetty2Interior' },
+        interior: { x: 73, y: 54, width: 4, height: 5, map: 'portoLetty2Interior' },
         doorTiles: [{ x: 75, y: 57 }],
         spawns: {
             onEnter: { x: 75, y: 56, facing: 'up' },
@@ -25,7 +25,7 @@ const PORTO_POTTY_CONFIGS = {
     },
     portoLetty3: {
         exterior: { x: 103, y: 0, width: 2, height: 3, map: 'outside' },
-        interior: { x: 73, y: 54, width: 4, height: 4, map: 'portoLetty3Interior' },
+        interior: { x: 73, y: 54, width: 4, height: 5, map: 'portoLetty3Interior' },
         doorTiles: [{ x: 75, y: 57 }],
         spawns: {
             onEnter: { x: 75, y: 56, facing: 'up' },

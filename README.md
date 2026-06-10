@@ -373,6 +373,15 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - Props on outside map can be walked through
 - Only Tent #1 has working prop collision
 
+#### Port-o-Potty Interior Collision Bug
+- Player can walk over the bottom wall (door wall) inside enterable port-o-potties
+- Visual walls and collision boundaries are misaligned — walls appear shifted down by one row
+- Player cannot visually reach the top wall but collision blocks early
+- Player can walk onto the bottom wall row despite it being visually solid
+- Room is 4×5 (wall + 3 floor + wall), door trigger is on floor row matching tent pattern, but collision still leaks through
+- Suspected root cause: sprite is ~32px tall (2 tiles) and extends past collision boundary, OR a tile rendering vs collision coordinate offset
+- **Not yet resolved** — needs further investigation
+
 #### Tent Entrance Z-Ordering Bug
 - During transition cooldown, player briefly appears behind tent entrance grass
 - Very brief visual glitch
@@ -418,6 +427,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 ### ⚠️ Known Issues (In Progress)
 1. **Prop collision** - Camping props in Tent #2 and da Bussy interior can be walked through (except backpack)
 2. **Tent entrance z-ordering** - Brief visual glitch during transition cooldown
+3. **Port-o-potty interior collision** - Player can walk over bottom wall; walls visually misaligned with collision
 
 ### 🔧 Next Steps (Priority Order)
 

@@ -400,6 +400,7 @@ const mapPortoLetty1Interior = (() => {
         [2,  2,  2,  2],
         [2, 11, 11,  2],
         [2, 11, 11,  2],
+        [2, 11, 11,  2],
         [2,  2, 12,  2]
     ];
     for (let y = 0; y < roomLayout.length; y++) {
@@ -422,6 +423,7 @@ const mapPortoLetty2Interior = (() => {
         [2,  2,  2,  2],
         [2, 11, 11,  2],
         [2, 11, 11,  2],
+        [2, 11, 11,  2],
         [2,  2, 12,  2]
     ];
     for (let y = 0; y < roomLayout.length; y++) {
@@ -442,6 +444,7 @@ const mapPortoLetty3Interior = (() => {
     }
     const roomLayout = [
         [2,  2,  2,  2],
+        [2, 11, 11,  2],
         [2, 11, 11,  2],
         [2, 11, 11,  2],
         [2,  2, 12,  2]
