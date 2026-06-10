@@ -435,6 +435,8 @@ These files exist from earlier prototype phases but are not loaded in the game:
 1. Fix prop collision for all interiors
 2. Add more camping props outside tents
 3. Add psychedelic decorations to bus interior
+4. Make chest prop larger (2+ tiles wide, bigger than Bandaniel sprite)
+5. Add cooler prop with "healing beverages" — consumable items that restore player health
 
 #### Medium Term
 4. Implement Level 2 transition flow (decide how da Bussy drives to next location)
@@ -842,7 +844,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 
 **Last Updated:** June 9, 2026
 **Version:** Backpack Storage System & Dialogue Choices Complete
-**Next Milestone:** Level 2 transition flow, prop collision fixes
+**Next Milestone:** Chest sizing, healing cooler, port-o-potty collision fix, prop collision fixes
 
 ---
 
