@@ -222,6 +222,13 @@ function checkAutomaticTransitions() {
         case 'bussyInterior':
             return checkBussyTransitions(px, py);
         
+        case 'portoLetty1Interior':
+            return checkPortOPottyTransitions(PORTO_POTTY_CONFIGS.portoLetty1, px, py);
+        case 'portoLetty2Interior':
+            return checkPortOPottyTransitions(PORTO_POTTY_CONFIGS.portoLetty2, px, py);
+        case 'portoLetty3Interior':
+            return checkPortOPottyTransitions(PORTO_POTTY_CONFIGS.portoLetty3, px, py);
+        
         default:
             return false;
     }

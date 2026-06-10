@@ -366,7 +366,12 @@ function checkPropInteraction() {
                 // DEBUG: Log the prop object to see what properties it has
                 
                 // Call the appropriate interaction handler
-                if (prop.storageItem) {
+                if (prop.interactType === 'portoPotty') {
+                    // Handle port-o-potty interaction
+                    if (typeof handlePortOPottyInteraction === 'function') {
+                        handlePortOPottyInteraction(prop.key);
+                    }
+                } else if (prop.storageItem) {
                     // Handle storage interaction
                     handleStorageInteraction(prop);
                 } else {

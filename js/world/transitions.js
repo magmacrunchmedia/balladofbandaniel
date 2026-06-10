@@ -177,3 +177,78 @@ function exitBussy() {
         player.positionLocked = false;
     }, 1);
 }
+
+// ========== PORT-O-POTTY TRANSITIONS ==========
+
+function enterPortOPotty(config) {
+    transitionCooldown = 30;
+    
+    currentMap = config.interior.map;
+    map = MAPS[config.interior.map];
+    
+    player.x = config.spawns.onEnter.x;
+    player.y = config.spawns.onEnter.y;
+    player.direction = config.spawns.onEnter.facing;
+    
+    // Set facing direction
+    if (config.spawns.onEnter.facing === 'up') {
+        player.facingX = 0; player.facingY = -1;
+    } else if (config.spawns.onEnter.facing === 'down') {
+        player.facingX = 0; player.facingY = 1;
+    } else if (config.spawns.onEnter.facing === 'left') {
+        player.facingX = -1; player.facingY = 0;
+    } else if (config.spawns.onEnter.facing === 'right') {
+        player.facingX = 1; player.facingY = 0;
+    }
+    
+    // Lock position, snap camera, unlock
+    player.positionLocked = true;
+    camera.x = player.x * TILE_SIZE;
+    camera.y = player.y * TILE_SIZE;
+    
+    setTimeout(() => {
+        player.positionLocked = false;
+    }, 1);
+}
+
+function exitPortOPotty(config) {
+    transitionCooldown = 30;
+    
+    currentMap = 'outside';
+    map = MAPS.outside;
+    
+    player.x = config.spawns.onExit.x;
+    player.y = config.spawns.onExit.y;
+    player.direction = config.spawns.onExit.facing;
+    
+    // Set facing direction
+    if (config.spawns.onExit.facing === 'up') {
+        player.facingX = 0; player.facingY = -1;
+    } else if (config.spawns.onExit.facing === 'down') {
+        player.facingX = 0; player.facingY = 1;
+    } else if (config.spawns.onExit.facing === 'left') {
+        player.facingX = -1; player.facingY = 0;
+    } else if (config.spawns.onExit.facing === 'right') {
+        player.facingX = 1; player.facingY = 0;
+    }
+    
+    // Lock position, snap camera, unlock
+    player.positionLocked = true;
+    camera.x = player.x * TILE_SIZE;
+    camera.y = player.y * TILE_SIZE;
+    
+    setTimeout(() => {
+        player.positionLocked = false;
+    }, 1);
+}
+
+function checkPortOPottyTransitions(config, px, py) {
+    const doors = config.doorTiles;
+    if (doors.some(door => px === door.x && py === door.y)) {
+        if (player.direction === 'down') {
+            exitPortOPotty(config);
+            return true;
+        }
+    }
+    return false;
+}

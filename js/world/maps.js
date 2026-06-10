@@ -386,5 +386,77 @@ MAPS.tentInterior3 = mapTentInterior3;
 // Add bussy interior to MAPS
 MAPS.bussyInterior = mapBussyInterior;
 
+// ========== PORT-O-POTTY INTERIORS (4×4 rooms) ==========
+
+const mapPortoLetty1Interior = (() => {
+    const config = PORTO_POTTY_CONFIGS.portoLetty1;
+    const paddedMap = [];
+    for (let y = 0; y < 112; y++) {
+        const row = [];
+        for (let x = 0; x < 150; x++) { row.push(9); }
+        paddedMap.push(row);
+    }
+    const roomLayout = [
+        [2,  2,  2,  2],
+        [2, 11, 11,  2],
+        [2, 11, 11,  2],
+        [2,  2, 12,  2]
+    ];
+    for (let y = 0; y < roomLayout.length; y++) {
+        for (let x = 0; x < roomLayout[y].length; x++) {
+            paddedMap[config.interior.y + y][config.interior.x + x] = roomLayout[y][x];
+        }
+    }
+    return paddedMap;
+})();
+
+const mapPortoLetty2Interior = (() => {
+    const config = PORTO_POTTY_CONFIGS.portoLetty2;
+    const paddedMap = [];
+    for (let y = 0; y < 112; y++) {
+        const row = [];
+        for (let x = 0; x < 150; x++) { row.push(9); }
+        paddedMap.push(row);
+    }
+    const roomLayout = [
+        [2,  2,  2,  2],
+        [2, 11, 11,  2],
+        [2, 11, 11,  2],
+        [2,  2, 12,  2]
+    ];
+    for (let y = 0; y < roomLayout.length; y++) {
+        for (let x = 0; x < roomLayout[y].length; x++) {
+            paddedMap[config.interior.y + y][config.interior.x + x] = roomLayout[y][x];
+        }
+    }
+    return paddedMap;
+})();
+
+const mapPortoLetty3Interior = (() => {
+    const config = PORTO_POTTY_CONFIGS.portoLetty3;
+    const paddedMap = [];
+    for (let y = 0; y < 112; y++) {
+        const row = [];
+        for (let x = 0; x < 150; x++) { row.push(9); }
+        paddedMap.push(row);
+    }
+    const roomLayout = [
+        [2,  2,  2,  2],
+        [2, 11, 11,  2],
+        [2, 11, 11,  2],
+        [2,  2, 12,  2]
+    ];
+    for (let y = 0; y < roomLayout.length; y++) {
+        for (let x = 0; x < roomLayout[y].length; x++) {
+            paddedMap[config.interior.y + y][config.interior.x + x] = roomLayout[y][x];
+        }
+    }
+    return paddedMap;
+})();
+
+MAPS.portoLetty1Interior = mapPortoLetty1Interior;
+MAPS.portoLetty2Interior = mapPortoLetty2Interior;
+MAPS.portoLetty3Interior = mapPortoLetty3Interior;
+
 // Props inside tent (sleeping bag, lantern, backpack, etc.)
 // We can add these later with a separate tent-props.js file

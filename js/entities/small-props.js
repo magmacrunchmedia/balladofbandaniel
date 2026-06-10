@@ -90,8 +90,7 @@ const SMALL_PROPS = {
         description: 'A crackling campfire. Warm and cozy.'
     },
 
-    // PORT-O-POTTY #1 - Corrected collision boundaries
-    // Visual sprite draws from y=0, but collision is at y+1 and y+2 (2x2 footprint)
+    // PORT-O-POTTY #1 - Enterable
     portoLetty1: {
         x: 99,
         y: 0,
@@ -101,16 +100,16 @@ const SMALL_PROPS = {
         drawFunction: 'drawPortOPotty',
         map: 'outside',
         solidTiles: [
-            // Middle row (visual body/door) - offset by +1
             {dx: 0, dy: 1}, {dx: 1, dy: 1},
-            // Bottom row (visual base) - offset by +2
             {dx: 0, dy: 2}, {dx: 1, dy: 2}
         ],
+        interact: true,
+        interactType: 'portoPotty',
         name: 'Port-o-Potty',
-        description: 'A portable toilet. Essential festival infrastructure.'
+        description: 'A portable toilet. Looks unlocked.'
     },
     
-    // PORT-O-POTTY #2 - Corrected collision boundaries
+    // PORT-O-POTTY #2 - Locked
     portoLetty2: {
         x: 101,
         y: 0,
@@ -123,11 +122,13 @@ const SMALL_PROPS = {
             {dx: 0, dy: 1}, {dx: 1, dy: 1},
             {dx: 0, dy: 2}, {dx: 1, dy: 2}
         ],
+        interact: true,
+        interactType: 'portoPotty',
         name: 'Port-o-Potty',
-        description: 'Another portable toilet. The line is probably long.'
+        description: 'This one has an "Occupied" sign.'
     },
 
-    // PORT-O-POTTY #3 - Corrected collision boundaries
+    // PORT-O-POTTY #3 - Enterable
     portoLetty3: {
         x: 103,
         y: 0,
@@ -140,8 +141,10 @@ const SMALL_PROPS = {
             {dx: 0, dy: 1}, {dx: 1, dy: 1},
             {dx: 0, dy: 2}, {dx: 1, dy: 2}
         ],
+        interact: true,
+        interactType: 'portoPotty',
         name: 'Port-o-Potty',
-        description: 'Another portable toilet. The line is probably long.'
+        description: 'Another portable toilet. Looks unlocked.'
     },
 
     // PORT-O-POTTY #4 - Corrected collision boundaries
