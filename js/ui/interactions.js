@@ -10,8 +10,8 @@ function handleInteraction() {
     
     // If dialogue is already active, advance it or select choice
     if (window.dialogueActive) {
-        // If choices are active, SPACE selects the highlighted choice
-        if (typeof dialogueChoicesList !== 'undefined' && dialogueChoicesList.length > 0 && !dialogueChoicesMade) {
+        // If choices are visible, SPACE selects the highlighted choice
+        if (typeof dialogueChoices !== 'undefined' && dialogueChoices.style.display === 'block' && dialogueChoicesList.length > 0 && !dialogueChoicesMade) {
             if (typeof selectDialogueChoice === 'function') {
                 selectDialogueChoice();
             }

@@ -68,10 +68,8 @@ function equipBackpack() {
         updateHandsDisplay();
     }
     
-    // Show notification
-    if (typeof showMessage === 'function') {
-        showMessage('Put on backpack! Press B to look inside.');
-    }
+    // Show notification via dialogue
+    showBackpackNotification('You put on the backpack. Press B to look inside.');
     
     // Trigger sidebar refresh
     if (typeof onStorageChanged === 'function') {
@@ -80,22 +78,25 @@ function equipBackpack() {
 }
 
 /**
- * Unequip the backpack and drop it at player's feet
+ * Unequip the backpack and place it near the player
  */
 function unequipBackpack() {
     if (!playerInventory.isBackpackEquipped()) return;
     
-    // Get the backpack type before unequipping
-    const backpackType = playerInventory.backpack;
-    
     // Unequip
     playerInventory.unequipBackpack();
     
-    // Drop backpack at player's feet (like dropping an item)
-    if (typeof player !== 'undefined' && typeof addWorldItem === 'function') {
-        const dropX = Math.floor(player.x + player.facingX * 2);
-        const dropY = Math.floor(player.y + player.facingY * 2);
-        addWorldItem(backpackType.id, dropX, dropY, currentMap);
+    // Re-show the backpack prop near the player
+    const backpackProp = PROP_POSITIONS['bussy_backpack'];
+    if (backpackProp && typeof player !== 'undefined') {
+        backpackProp.x = Math.floor(player.x + player.facingX * 2);
+        backpackProp.y = Math.floor(player.y + player.facingY * 2);
+        backpackProp.visible = true;
+    }
+    
+    // Regenerate collision arrays (backpack is solid again)
+    if (typeof regeneratePropCollisions === 'function') {
+        regeneratePropCollisions();
     }
     
     // Update UI
@@ -103,10 +104,14 @@ function unequipBackpack() {
         updateHandsDisplay();
     }
     
-    // Show notification
-    if (typeof showMessage === 'function') {
-        showMessage('Took off backpack. It fell at your feet.');
+    // Close backpack overlay if open
+    const backpackOverlay = document.getElementById('backpackOverlay');
+    if (backpackOverlay) {
+        backpackOverlay.classList.remove('active');
     }
+    
+    // Show notification via dialogue
+    showBackpackNotification('You took off the backpack. It\'s at your feet.');
     
     // Trigger sidebar refresh
     if (typeof onStorageChanged === 'function') {
@@ -115,8 +120,7 @@ function unequipBackpack() {
 }
 
 /* =====================
-   HELPER: Show Dialogue
-   (wrapper for existing dialogue system)
+   HELPERS
    ===================== */
 
 function showBackpackDialogue(npcName, messages, choices) {
@@ -127,4 +131,17 @@ function showBackpackDialogue(npcName, messages, choices) {
         currentDialogue: 0
     };
     showDialogue(fakeNPC, null, choices);
+}
+
+/**
+ * Show a brief notification using the dialogue box (not showMessage)
+ */
+function showBackpackNotification(text) {
+    const fakeNPC = {
+        name: '',
+        dialogue: [text],
+        type: 'backpack',
+        currentDialogue: 0
+    };
+    showDialogue(fakeNPC);
 }

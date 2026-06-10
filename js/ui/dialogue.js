@@ -24,8 +24,8 @@ window.checkNPCInteraction = function() {
     if (window.dialogueActive) {
         if (now - lastInteractionTime < INTERACTION_COOLDOWN) return true;
         
-        // If choices are active, SPACE selects the highlighted choice
-        if (dialogueChoicesList.length > 0 && !dialogueChoicesMade) {
+        // If choices are visible, SPACE selects the highlighted choice
+        if (dialogueChoices.style.display === 'block' && dialogueChoicesList.length > 0 && !dialogueChoicesMade) {
             selectDialogueChoice();
             lastInteractionTime = now;
             return true;
