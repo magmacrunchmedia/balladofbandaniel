@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tent Camping Props Position Adjuster</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        h1 {
+            color: #ff00ff;
+            text-align: center;
+        }
+        
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .canvas-section {
+            flex: 1;
+        }
+        
+        canvas {
+            border: 2px solid #00ff00;
+            background: #000;
+            cursor: crosshair;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        .controls {
+            width: 350px;
+            background: #2a2a2a;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+        
+        .prop-item {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .prop-item:hover {
+            border-color: #00ff00;
+        }
+        
+        .prop-item.selected {
+            border: 2px solid #ff00ff;
+            background: #2a1a2a;
+        }
+        
+        .prop-name {
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 5px;
+        }
+        
+        .prop-coords {
+            color: #ffff00;
+            font-size: 12px;
+        }
+        
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: #00ffff;
+        }
+        
+        .export-area {
+            margin-top: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            border-radius: 4px;
+        }
+        
+        .info {
+            background: #1a2a1a;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #00ff00;
+            font-size: 12px;
+        }
+        
+        .legend {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1a1a2a;
+            border: 1px solid #4444ff;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        
+        .legend-item {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏕️ TENT CAMPING PROPS POSITION ADJUSTER</h1>
+    
+    <div class="container">
+        <div class="canvas-section">
+            <canvas id="tentCanvas" width="800" height="640"></canvas>
+            <div class="info">
+                <strong>Instructions:</strong><br>
+                • Click on a prop in the right panel to select it<br>
+                • Click anywhere on the tent canvas to move the selected prop<br>
+                • ELEKTRA (orange circle) is at (74, 54) - fixed position<br>
+                • Red rectangle = tent interior (10×8 tiles)<br>
+                • Grid shows tile boundaries (16px each, zoomed 5x for visibility)
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h3 style="color: #00ffff; margin-top: 0;">Camping Props</h3>
+            
+            <div id="propsList"></div>
+            
+            <div class="legend">
+                <strong style="color: #ffff00;">Legend:</strong>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #c62828;"></div>
+                    <span>Tent Walls</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #5a5a5a;"></div>
+                    <span>Tent Floor</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff8800;"></div>
+                    <span>ELEKTRA (NPC)</span>
+                </div>
+            </div>
+            
+            <div class="export-area">
+                <button onclick="exportConfig()">📋 Export Config</button>
+                <button onclick="resetPositions()">🔄 Reset to Default</button>
+                <textarea id="exportCode" placeholder="Click 'Export Config' to generate code..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tentCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Constants
+        const TILE_SIZE = 16;
+        const ZOOM = 5; // 5x zoom for visibility
+        const DISPLAY_SIZE = TILE_SIZE * ZOOM;
+        
+        // Tent interior bounds (in tile coordinates)
+        const TENT_BOUNDS = {
+            x: 71,
+            y: 52,
+            width: 10,
+            height: 8
+        };
+        
+        // ELEKTRA position (MOVED LEFT)
+        const ELEKTRA_POS = { x: 72, y: 54 };
+        
+        // Camping props data (UPDATED POSITIONS)
+        let props = [
+            { x: 72, y: 53, type: 'backpack', name: 'Backpack', color: '#689f38' },
+            { x: 73, y: 53, type: 'sleepingBag', name: 'Sleeping Bag (Rolled)', color: '#00bcd4' },
+            { x: 75, y: 53, type: 'campingLantern', name: 'Camping Lantern', color: '#fbc02d' },
+            { x: 77, y: 53, type: 'campingMat', name: 'Camping Mat', color: '#ff5722' },
+            { x: 72, y: 54, type: 'campingStove', name: 'Camping Stove', color: '#757575' },
+            { x: 74, y: 54, type: 'waterBottle', name: 'Water Bottle', color: '#4fc3f7' },
+            { x: 78, y: 54, type: 'firstAidKit', name: 'First Aid Kit', color: '#ffffff' },
+            { x: 79, y: 55, type: 'sleepingBagUnrolled', name: 'Sleeping Bag (Unrolled)', color: '#26c6da' },
+            { x: 73, y: 56, type: 'cooler', name: 'Cooler', color: '#1976d2' },
+            { x: 75, y: 56, type: 'campingFlashlight', name: 'Flashlight', color: '#424242' },
+            { x: 77, y: 56, type: 'campingChair', name: 'Camping Chair', color: '#757575' }
+        ];
+        
+        let selectedPropIndex = null;
+        
+        function drawTent() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            for (let x = 0; x <= 10; x++) {
+                ctx.beginPath();
+                ctx.moveTo(x * DISPLAY_SIZE, 0);
+                ctx.lineTo(x * DISPLAY_SIZE, 8 * DISPLAY_SIZE);
+                ctx.stroke();
+            }
+            for (let y = 0; y <= 8; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, y * DISPLAY_SIZE);
+                ctx.lineTo(10 * DISPLAY_SIZE, y * DISPLAY_SIZE);
+                ctx.stroke();
+            }
+            
+            // Draw tent floor (grey)
+            ctx.fillStyle = '#5a5a5a';
+            ctx.fillRect(DISPLAY_SIZE, DISPLAY_SIZE, 8 * DISPLAY_SIZE, 6 * DISPLAY_SIZE);
+            
+            // Draw tent walls (red border)
+            ctx.strokeStyle = '#c62828';
+            ctx.lineWidth = DISPLAY_SIZE;
+            ctx.strokeRect(
+                DISPLAY_SIZE / 2,
+                DISPLAY_SIZE / 2,
+                9 * DISPLAY_SIZE,
+                7 * DISPLAY_SIZE
+            );
+            
+            // Draw ELEKTRA (orange circle)
+            const elektraX = (ELEKTRA_POS.x - TENT_BOUNDS.x) * DISPLAY_SIZE + DISPLAY_SIZE / 2;
+            const elektraY = (ELEKTRA_POS.y - TENT_BOUNDS.y) * DISPLAY_SIZE + DISPLAY_SIZE / 2;
+            ctx.fillStyle = '#ff8800';
+            ctx.beginPath();
+            ctx.arc(elektraX, elektraY, DISPLAY_SIZE * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Add ELEKTRA label
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px Courier New';
+            ctx.textAlign = 'center';
+            ctx.fillText('ELEKTRA', elektraX, elektraY + DISPLAY_SIZE);
+            
+            // Draw props
+            props.forEach((prop, index) => {
+                const px = (prop.x - TENT_BOUNDS.x) * DISPLAY_SIZE + DISPLAY_SIZE / 2;
+                const py = (prop.y - TENT_BOUNDS.y) * DISPLAY_SIZE + DISPLAY_SIZE / 2;
+                
+                // Draw prop square
+                ctx.fillStyle = prop.color;
+                const size = DISPLAY_SIZE * 0.6;
+                ctx.fillRect(px - size / 2, py - size / 2, size, size);
+                
+                // Highlight if selected
+                if (index === selectedPropIndex) {
+                    ctx.strokeStyle = '#ff00ff';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(px - size / 2 - 2, py - size / 2 - 2, size + 4, size + 4);
+                }
+            });
+        }
+        
+        function updatePropsList() {
+            const list = document.getElementById('propsList');
+            list.innerHTML = props.map((prop, index) => `
+                <div class="prop-item ${index === selectedPropIndex ? 'selected' : ''}" 
+                     onclick="selectProp(${index})">
+                    <div class="prop-name">${prop.name}</div>
+                    <div class="prop-coords">Position: (${prop.x}, ${prop.y})</div>
+                    <div class="prop-coords">Type: ${prop.type}</div>
+                </div>
+            `).join('');
+        }
+        
+        function selectProp(index) {
+            selectedPropIndex = index;
+            updatePropsList();
+            drawTent();
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            if (selectedPropIndex === null) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            
+            // Convert to tile coordinates
+            const tileX = Math.floor(clickX / DISPLAY_SIZE) + TENT_BOUNDS.x;
+            const tileY = Math.floor(clickY / DISPLAY_SIZE) + TENT_BOUNDS.y;
+            
+            // Update prop position
+            props[selectedPropIndex].x = tileX;
+            props[selectedPropIndex].y = tileY;
+            
+            updatePropsList();
+            drawTent();
+        });
+        
+        function exportConfig() {
+            const config = props.map(prop => `    // ${prop.name.toUpperCase()}
+    {
+        x: ${prop.x},
+        y: ${prop.y},
+        type: '${prop.type}',
+        name: '${prop.name}',
+        description: 'A ${prop.name.toLowerCase()}.',
+        collidable: true,
+        drawFunction: 'draw${prop.type.charAt(0).toUpperCase() + prop.type.slice(1)}'
+    }`).join(',\n\n');
+            
+            const fullConfig = `const TENT_CAMPING_PROPS = [\n${config}\n];`;
+            
+            document.getElementById('exportCode').value = fullConfig;
+            document.getElementById('exportCode').select();
+        }
+        
+        function resetPositions() {
+            props = [
+                { x: 72, y: 53, type: 'backpack', name: 'Backpack', color: '#689f38' },
+                { x: 73, y: 53, type: 'sleepingBag', name: 'Sleeping Bag (Rolled)', color: '#00bcd4' },
+                { x: 75, y: 53, type: 'campingLantern', name: 'Camping Lantern', color: '#fbc02d' },
+                { x: 77, y: 53, type: 'campingMat', name: 'Camping Mat', color: '#ff5722' },
+                { x: 72, y: 54, type: 'campingStove', name: 'Camping Stove', color: '#757575' },
+                { x: 74, y: 54, type: 'waterBottle', name: 'Water Bottle', color: '#4fc3f7' },
+                { x: 78, y: 54, type: 'firstAidKit', name: 'First Aid Kit', color: '#ffffff' },
+                { x: 79, y: 55, type: 'sleepingBagUnrolled', name: 'Sleeping Bag (Unrolled)', color: '#26c6da' },
+                { x: 73, y: 56, type: 'cooler', name: 'Cooler', color: '#1976d2' },
+                { x: 75, y: 56, type: 'campingFlashlight', name: 'Flashlight', color: '#424242' },
+                { x: 77, y: 56, type: 'campingChair', name: 'Camping Chair', color: '#757575' }
+            ];
+            selectedPropIndex = null;
+            updatePropsList();
+            drawTent();
+        }
+        
+        // Initialize
+        updatePropsList();
+        drawTent();
+    </script>
+</body>
+</html>

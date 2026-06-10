@@ -1,0 +1,355 @@
+/* ================================================
+   GAME OVER SCREEN - SNES STYLE
+   Classic game over with stats and restart
+   ================================================ */
+
+/* ================================================
+   GAME OVER SCREEN OVERLAY
+   ================================================ */
+#gameOverScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 900;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameOverScreen.active {
+    display: flex;
+}
+
+/* ================================================
+   GAME OVER CONTENT WINDOW
+   ================================================ */
+#gameOverContent {
+    background: var(--snes-bg);
+    padding: 40px 60px;
+    text-align: center;
+    max-width: 550px;
+    width: 85%;
+    
+    /* Red danger border */
+    box-shadow: 
+        0 0 0 4px #ff6b6b,
+        0 0 0 8px var(--health-red),
+        0 0 0 12px #c0392b,
+        0 12px 0 0 #7f1d1d,
+        0 16px 0 0 #4c0000,
+        0 0 30px rgba(231, 76, 60, 0.5);
+}
+
+/* ================================================
+   GAME OVER HEADING
+   ================================================ */
+#gameOverContent h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    color: var(--health-red);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 4px solid rgba(231, 76, 60, 0.3);
+    font-weight: normal;
+    text-shadow: 
+        3px 3px 0 rgba(0, 0, 0, 0.7),
+        0 0 20px rgba(231, 76, 60, 0.7);
+}
+
+/* ================================================
+   GAME OVER TEXT
+   ================================================ */
+#gameOverContent p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--text-white);
+    line-height: 2;
+    letter-spacing: 0;
+    margin-bottom: 20px;
+}
+
+/* ================================================
+   FINAL STATS DISPLAY
+   ================================================ */
+#finalStats {
+    background: var(--snes-dark);
+    padding: 20px;
+    margin: 24px 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--text-white);
+    line-height: 2.2;
+    letter-spacing: 0;
+    
+    box-shadow: 
+        0 0 0 2px var(--snes-medium),
+        0 0 0 4px rgba(231, 76, 60, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.stat-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.stat-line:last-child {
+    margin-bottom: 0;
+}
+
+.stat-line strong {
+    color: var(--text-gray);
+    font-weight: normal;
+}
+
+.stat-line span {
+    color: var(--color-gold);
+    font-weight: normal;
+}
+
+/* ================================================
+   RESTART BUTTON
+   ================================================ */
+#restartButton {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    padding: 16px 32px;
+    background: var(--health-red);
+    color: var(--text-white);
+    border: none;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    font-weight: normal;
+    margin-top: 8px;
+    
+    /* Red button border */
+    box-shadow: 
+        0 6px 0 #7f1d1d,
+        0 -4px 0 #ff6b6b,
+        -4px 0 0 #c0392b,
+        4px 0 0 #c0392b,
+        -4px -4px 0 #ff4444,
+        4px -4px 0 #ff4444,
+        -4px 6px 0 #4c0000,
+        4px 6px 0 #4c0000;
+}
+
+#restartButton:hover {
+    background: #c0392b;
+    box-shadow: 
+        0 6px 0 #6d1d1d,
+        0 -4px 0 #ff5555,
+        -4px 0 0 #a0291b,
+        4px 0 0 #a0291b,
+        -4px -4px 0 #ff3333,
+        4px -4px 0 #ff3333,
+        -4px 6px 0 #3c0000,
+        4px 6px 0 #3c0000;
+}
+
+#restartButton:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 #7f1d1d,
+        0 -4px 0 #ff6b6b,
+        -4px 0 0 #c0392b,
+        4px 0 0 #c0392b;
+}
+
+/* ================================================
+   DEATH SKULL ICON (Optional)
+   ================================================ */
+.death-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* ================================================
+   RETRY COUNTER (Optional)
+   ================================================ */
+.retry-counter {
+    margin-top: 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-gray);
+    letter-spacing: 0;
+}
+
+.retry-counter strong {
+    color: var(--health-red);
+    font-weight: normal;
+}
+
+/* ================================================
+   CONTINUE MESSAGE (Optional)
+   ================================================ */
+.continue-message {
+    margin-top: 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-gray);
+    letter-spacing: 0;
+    line-height: 2;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    #gameOverContent {
+        padding: 30px 40px;
+        width: 90%;
+        box-shadow: 
+            0 0 0 3px #ff6b6b,
+            0 0 0 6px var(--health-red),
+            0 0 0 9px #c0392b,
+            0 9px 0 0 #7f1d1d,
+            0 0 25px rgba(231, 76, 60, 0.5);
+    }
+    
+    #gameOverContent h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    #gameOverContent p {
+        font-size: 10px;
+        margin-bottom: 16px;
+    }
+    
+    #finalStats {
+        font-size: 8px;
+        padding: 16px;
+        margin: 20px 0;
+    }
+    
+    .stat-line {
+        padding: 6px 10px;
+        margin-bottom: 10px;
+    }
+    
+    #restartButton {
+        font-size: 12px;
+        padding: 14px 28px;
+    }
+    
+    .death-icon {
+        font-size: 50px;
+        margin-bottom: 16px;
+    }
+    
+    .retry-counter,
+    .continue-message {
+        font-size: 7px;
+    }
+}
+
+@media (max-width: 480px) {
+    #gameOverContent {
+        padding: 25px 30px;
+        width: 95%;
+    }
+    
+    #gameOverContent h2 {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+    
+    #gameOverContent p {
+        font-size: 9px;
+        margin-bottom: 14px;
+    }
+    
+    #finalStats {
+        font-size: 7px;
+        padding: 14px;
+        margin: 16px 0;
+        line-height: 2.4;
+    }
+    
+    .stat-line {
+        padding: 5px 8px;
+        margin-bottom: 8px;
+    }
+    
+    #restartButton {
+        font-size: 10px;
+        padding: 12px 24px;
+    }
+    
+    .death-icon {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+    
+    .retry-counter,
+    .continue-message {
+        font-size: 6px;
+    }
+}
+
+/* ================================================
+   DISABLE TRANSITIONS
+   ================================================ */
+#gameOverScreen,
+#gameOverContent {
+    transition: none !important;
+}
+
+/* ================================================
+   RED VIGNETTE EFFECT
+   ================================================ */
+#gameOverScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(231, 76, 60, 0) 0%,
+        rgba(231, 76, 60, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ================================================
+   FLASHING WARNING EFFECT (Optional)
+   ================================================ */
+@keyframes danger-flash {
+    0%, 100% {
+        box-shadow: 
+            0 0 0 4px #ff6b6b,
+            0 0 0 8px var(--health-red),
+            0 0 0 12px #c0392b,
+            0 12px 0 0 #7f1d1d,
+            0 16px 0 0 #4c0000,
+            0 0 30px rgba(231, 76, 60, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 0 0 4px #ff6b6b,
+            0 0 0 8px var(--health-red),
+            0 0 0 12px #c0392b,
+            0 12px 0 0 #7f1d1d,
+            0 16px 0 0 #4c0000,
+            0 0 50px rgba(231, 76, 60, 0.9);
+    }
+}
+
+#gameOverContent.flash {
+    animation: danger-flash 2s infinite;
+}

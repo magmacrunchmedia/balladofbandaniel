@@ -1,0 +1,225 @@
+/* ================================================
+   BASE STYLES & CSS VARIABLES
+   SNES color palette and utility classes
+   ================================================ */
+
+/* ================================================
+   CSS CUSTOM PROPERTIES (Color Palette)
+   ================================================ */
+:root {
+    /* Main SNES Blue-Gray Theme */
+    --snes-bg: #3a4466;
+    --snes-dark: #2a3a5a;
+    --snes-medium: #4a5a7a;
+    --snes-light: #6a7a9a;
+    --snes-darkest: #1a2a4a;
+    --snes-black: #0a1a3a;
+    
+    /* Light Window Theme */
+    --snes-light-bg: #d4d4e4;
+    --snes-light-bright: #ffffff;
+    --snes-light-medium: #a4a4b4;
+    --snes-light-dark: #747484;
+    
+    /* Accent Colors */
+    --color-gold: #ffd700;
+    --color-cyan: #00d4ff;
+    --color-green: #2ecc71;
+    --color-red: #e74c3c;
+    --color-purple: #6c5ce7;
+    --color-yellow: #ffc107;
+    
+    /* Text Colors */
+    --text-white: #ffffff;
+    --text-black: #000000;
+    --text-gray: #aaaaaa;
+    
+    /* Button Colors */
+    --btn-default: #5a6988;
+    --btn-default-dark: #2a3344;
+    --btn-default-light: #7a89a8;
+    --btn-hover: #00d4ff;
+    --btn-green: #2ecc71;
+    --btn-yellow: #ffc107;
+    
+    /* Game-specific Colors */
+    --grass-color: #7cb342;
+    --water-color: #1e88e5;
+    --health-red: #e74c3c;
+    --health-bg: #2c3e50;
+}
+
+/* ================================================
+   PIXEL-PERFECT RENDERING
+   ================================================ */
+.pixel-perfect {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* ================================================
+   SNES TEXT STYLES
+   ================================================ */
+.snes-text {
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 0;
+    font-weight: normal;
+}
+
+.snes-text-small {
+    font-size: 8px;
+    line-height: 1.8;
+}
+
+.snes-text-medium {
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.snes-text-large {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.snes-text-xlarge {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* ================================================
+   COLOR UTILITY CLASSES
+   ================================================ */
+.text-gold { color: var(--color-gold); }
+.text-cyan { color: var(--color-cyan); }
+.text-green { color: var(--color-green); }
+.text-red { color: var(--color-red); }
+.text-white { color: var(--text-white); }
+.text-gray { color: var(--text-gray); }
+
+.bg-dark { background: var(--snes-dark); }
+.bg-medium { background: var(--snes-medium); }
+.bg-light { background: var(--snes-light); }
+
+/* ================================================
+   SNES BORDER UTILITIES
+   ================================================ */
+.snes-border-thick {
+    box-shadow: 
+        0 0 0 4px var(--snes-light),
+        0 0 0 8px var(--snes-medium),
+        0 0 0 12px var(--snes-dark),
+        0 12px 0 0 var(--snes-darkest),
+        0 16px 0 0 var(--snes-black);
+}
+
+.snes-border-medium {
+    box-shadow: 
+        0 0 0 3px var(--snes-light),
+        0 0 0 6px var(--snes-medium),
+        0 0 0 9px var(--snes-dark),
+        0 9px 0 0 var(--snes-darkest);
+}
+
+.snes-border-thin {
+    box-shadow: 
+        0 0 0 2px var(--snes-medium),
+        0 4px 0 0 var(--snes-darkest);
+}
+
+.snes-border-inset {
+    box-shadow: 
+        inset 4px 4px 0 rgba(0, 0, 0, 0.3),
+        inset -4px -4px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ================================================
+   LAYOUT UTILITIES
+   ================================================ */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ================================================
+   SPACING UTILITIES
+   ================================================ */
+.p-small { padding: 8px; }
+.p-medium { padding: 12px; }
+.p-large { padding: 20px; }
+.p-xlarge { padding: 30px; }
+
+.m-small { margin: 8px; }
+.m-medium { margin: 12px; }
+.m-large { margin: 20px; }
+
+/* ================================================
+   SNES-STYLE SCANLINES (OPTIONAL)
+   ================================================ */
+.snes-scanlines::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1) 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ================================================
+   CRT SCREEN EFFECT (OPTIONAL)
+   ================================================ */
+.crt-effect {
+    position: relative;
+}
+
+.crt-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: 9998;
+}
+
+/* ================================================
+   DISABLE EFFECTS CLASS
+   ================================================ */
+.no-effects::after,
+.no-effects::before {
+    display: none !important;
+}

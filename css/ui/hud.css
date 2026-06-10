@@ -1,0 +1,303 @@
+/* ================================================
+   HUD ELEMENTS - SNES RPG STYLE
+   Health bar, item counter, inventory button
+   ================================================ */
+
+/* ================================================
+   ITEM COUNTER (Top-left)
+   ================================================ */
+#itemCounter {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--snes-bg);
+    padding: 12px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--text-white);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    z-index: 100;
+    
+    /* SNES window border */
+    box-shadow: 
+        0 0 0 3px var(--snes-light),
+        0 0 0 6px var(--snes-medium),
+        0 0 0 9px var(--snes-dark),
+        0 6px 0 0 var(--snes-darkest);
+}
+
+#itemCount {
+    color: var(--color-gold);
+    font-weight: normal;
+}
+
+#itemTotal {
+    color: var(--text-gray);
+    font-weight: normal;
+}
+
+/* ================================================
+   HEALTH BAR (Top-center)
+   ================================================ */
+#healthBar {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--snes-bg);
+    padding: 12px 20px;
+    z-index: 100;
+    min-width: 280px;
+    
+    /* SNES window border */
+    box-shadow: 
+        0 0 0 3px var(--snes-light),
+        0 0 0 6px var(--snes-medium),
+        0 0 0 9px var(--snes-dark),
+        0 6px 0 0 var(--snes-darkest);
+}
+
+#healthBarLabel {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--text-white);
+    text-transform: lowercase;
+    margin-bottom: 8px;
+    text-align: center;
+    letter-spacing: 0;
+}
+
+#healthBarContainer {
+    width: 100%;
+    height: 24px;
+    background: var(--snes-dark);
+    position: relative;
+    margin-bottom: 6px;
+    
+    /* Inset border effect */
+    box-shadow: 
+        inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+        inset -3px -3px 0 rgba(255, 255, 255, 0.1);
+}
+
+#healthBarFill {
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        var(--health-red) 0%,
+        #ff6b6b 50%,
+        var(--health-red) 100%
+    );
+    transition: width 0.3s ease;
+    position: relative;
+    
+    /* Pixelated gradient effect */
+    image-rendering: pixelated;
+}
+
+/* Health bar states */
+#healthBarFill.health-high {
+    background: linear-gradient(
+        to right,
+        var(--color-green) 0%,
+        #4edd91 50%,
+        var(--color-green) 100%
+    );
+}
+
+#healthBarFill.health-medium {
+    background: linear-gradient(
+        to right,
+        var(--color-yellow) 0%,
+        #ffd747 50%,
+        var(--color-yellow) 100%
+    );
+}
+
+#healthBarFill.health-low {
+    background: linear-gradient(
+        to right,
+        var(--health-red) 0%,
+        #ff6b6b 50%,
+        var(--health-red) 100%
+    );
+}
+
+#healthBarText {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-white);
+    text-align: center;
+    letter-spacing: 0;
+    font-weight: normal;
+}
+
+/* ================================================
+   INVENTORY BUTTON (Top-right)
+   ================================================ */
+#inventoryButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--btn-default);
+    color: var(--text-white);
+    padding: 12px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    z-index: 100;
+    user-select: none;
+    
+    /* SNES button border */
+    box-shadow: 
+        0 6px 0 var(--btn-default-dark),
+        0 -4px 0 var(--btn-default-light),
+        -4px 0 0 #4a5968,
+        4px 0 0 #4a5968,
+        -4px -4px 0 #6a7988,
+        4px -4px 0 #6a7988,
+        -4px 6px 0 #1a2334,
+        4px 6px 0 #1a2334;
+}
+
+#inventoryButton:hover {
+    background: var(--btn-hover);
+    color: var(--text-black);
+    box-shadow: 
+        0 6px 0 #006a7f,
+        0 -4px 0 #33e0ff,
+        -4px 0 0 #00a0bf,
+        4px 0 0 #00a0bf,
+        -4px -4px 0 #00c4df,
+        4px -4px 0 #00c4df,
+        -4px 6px 0 #00505f,
+        4px 6px 0 #00505f;
+}
+
+#inventoryButton:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 var(--btn-default-dark),
+        0 -4px 0 var(--btn-default-light),
+        -4px 0 0 #4a5968,
+        4px 0 0 #4a5968;
+}
+
+/* ================================================
+   INTERACT PROMPT (Center-bottom)
+   ================================================ */
+#interactPrompt {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--snes-bg);
+    color: var(--text-white);
+    padding: 12px 24px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    z-index: 99;
+    white-space: nowrap;
+    
+    /* SNES window border */
+    box-shadow: 
+        0 0 0 2px var(--snes-light),
+        0 0 0 4px var(--snes-medium),
+        0 0 0 6px var(--snes-dark),
+        0 4px 0 0 var(--snes-darkest);
+}
+
+/* Blinking animation for interact prompt */
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+#interactPrompt {
+    animation: blink 1.5s infinite;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    #itemCounter,
+    #inventoryButton {
+        top: 15px;
+        padding: 10px 16px;
+        font-size: 10px;
+    }
+    
+    #itemCounter {
+        left: 15px;
+    }
+    
+    #inventoryButton {
+        right: 15px;
+    }
+    
+    #healthBar {
+        top: 15px;
+        min-width: 220px;
+        padding: 10px 16px;
+    }
+    
+    #healthBarLabel {
+        font-size: 8px;
+    }
+    
+    #healthBarContainer {
+        height: 20px;
+    }
+    
+    #healthBarText {
+        font-size: 8px;
+    }
+    
+    #interactPrompt {
+        bottom: 50px;
+        padding: 10px 20px;
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    #itemCounter,
+    #inventoryButton {
+        top: 10px;
+        padding: 8px 12px;
+        font-size: 8px;
+    }
+    
+    #healthBar {
+        min-width: 180px;
+        padding: 8px 12px;
+    }
+    
+    #healthBarLabel {
+        font-size: 7px;
+        margin-bottom: 6px;
+    }
+    
+    #healthBarContainer {
+        height: 16px;
+    }
+    
+    #healthBarText {
+        font-size: 7px;
+    }
+}
+
+/* ================================================
+   DISABLE TRANSITIONS FOR PIXEL-PERFECT SNAPPING
+   ================================================ */
+#itemCounter,
+#inventoryButton,
+#interactPrompt {
+    transition: none !important;
+}

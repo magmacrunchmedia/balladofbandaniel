@@ -1,0 +1,335 @@
+/* ================================================
+   PAUSE SCREEN - SNES PAUSE MENU STYLE
+   Classic pause overlay with resume button
+   ================================================ */
+
+/* ================================================
+   PAUSE SCREEN OVERLAY
+   ================================================ */
+#pauseScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 800;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#pauseScreen.active {
+    display: flex;
+}
+
+/* ================================================
+   PAUSE CONTENT WINDOW
+   ================================================ */
+#pauseContent {
+    background: var(--snes-bg);
+    padding: 40px 60px;
+    text-align: center;
+    max-width: 500px;
+    width: 85%;
+    
+    /* SNES window border */
+    box-shadow: 
+        0 0 0 4px var(--snes-light),
+        0 0 0 8px var(--snes-medium),
+        0 0 0 12px var(--snes-dark),
+        0 12px 0 0 var(--snes-darkest),
+        0 16px 0 0 var(--snes-black);
+}
+
+/* ================================================
+   PAUSE HEADING
+   ================================================ */
+#pauseContent h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    color: var(--color-gold);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 4px solid var(--snes-dark);
+    font-weight: normal;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ================================================
+   PAUSE TEXT
+   ================================================ */
+#pauseContent p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--text-white);
+    line-height: 2;
+    letter-spacing: 0;
+    margin-bottom: 12px;
+}
+
+#pauseContent p:last-of-type {
+    color: var(--text-gray);
+    font-size: 9px;
+    margin-bottom: 24px;
+}
+
+/* ================================================
+   RESUME BUTTON
+   ================================================ */
+#resumeButton {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    padding: 16px 32px;
+    background: var(--btn-green);
+    color: var(--text-white);
+    border: none;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    font-weight: normal;
+    margin-top: 8px;
+    
+    /* Green button border */
+    box-shadow: 
+        0 6px 0 #1a7a3a,
+        0 -4px 0 #4edd91,
+        -4px 0 0 #25a555,
+        4px 0 0 #25a555,
+        -4px -4px 0 #3ed771,
+        4px -4px 0 #3ed771,
+        -4px 6px 0 #0f5a2a,
+        4px 6px 0 #0f5a2a;
+}
+
+#resumeButton:hover {
+    background: #27ae60;
+    box-shadow: 
+        0 6px 0 #156a30,
+        0 -4px 0 #3ecd71,
+        -4px 0 0 #1f9545,
+        4px 0 0 #1f9545,
+        -4px -4px 0 #2ebd61,
+        4px -4px 0 #2ebd61,
+        -4px 6px 0 #0a4a20,
+        4px 6px 0 #0a4a20;
+}
+
+#resumeButton:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 #1a7a3a,
+        0 -4px 0 #4edd91,
+        -4px 0 0 #25a555,
+        4px 0 0 #25a555;
+}
+
+/* ================================================
+   PAUSE MENU OPTIONS (Optional - for future use)
+   ================================================ */
+.pause-menu {
+    margin: 24px 0;
+}
+
+.pause-option {
+    background: var(--snes-dark);
+    color: var(--text-white);
+    padding: 14px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    border: 2px solid var(--snes-medium);
+    position: relative;
+    padding-left: 36px;
+    text-align: left;
+}
+
+.pause-option::before {
+    content: '▶';
+    position: absolute;
+    left: 14px;
+    color: var(--color-gold);
+    opacity: 0;
+}
+
+.pause-option:hover {
+    background: var(--snes-medium);
+    border-color: var(--snes-light);
+}
+
+.pause-option:hover::before {
+    opacity: 1;
+}
+
+.pause-option.selected {
+    background: var(--btn-hover);
+    color: var(--text-black);
+    border-color: #33e0ff;
+}
+
+.pause-option.selected::before {
+    color: var(--text-black);
+    opacity: 1;
+}
+
+/* ================================================
+   GAME STATS (Optional)
+   ================================================ */
+.pause-stats {
+    background: var(--snes-dark);
+    padding: 16px;
+    margin: 20px 0;
+    
+    box-shadow: 
+        0 0 0 2px var(--snes-medium),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-white);
+    letter-spacing: 0;
+}
+
+.stat-row:last-child {
+    margin-bottom: 0;
+}
+
+.stat-label {
+    color: var(--text-gray);
+}
+
+.stat-value {
+    color: var(--color-gold);
+    font-weight: normal;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    #pauseContent {
+        padding: 30px 40px;
+        width: 90%;
+        box-shadow: 
+            0 0 0 3px var(--snes-light),
+            0 0 0 6px var(--snes-medium),
+            0 0 0 9px var(--snes-dark),
+            0 9px 0 0 var(--snes-darkest);
+    }
+    
+    #pauseContent h2 {
+        font-size: 16px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    #pauseContent p {
+        font-size: 9px;
+        line-height: 2.2;
+    }
+    
+    #pauseContent p:last-of-type {
+        font-size: 8px;
+        margin-bottom: 20px;
+    }
+    
+    #resumeButton {
+        font-size: 12px;
+        padding: 14px 28px;
+    }
+    
+    .pause-option {
+        font-size: 9px;
+        padding: 12px 18px;
+        padding-left: 32px;
+    }
+    
+    .pause-stats {
+        padding: 12px;
+    }
+    
+    .stat-row {
+        font-size: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    #pauseContent {
+        padding: 25px 30px;
+        width: 95%;
+    }
+    
+    #pauseContent h2 {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+    
+    #pauseContent p {
+        font-size: 8px;
+    }
+    
+    #pauseContent p:last-of-type {
+        font-size: 7px;
+        margin-bottom: 16px;
+    }
+    
+    #resumeButton {
+        font-size: 10px;
+        padding: 12px 24px;
+    }
+    
+    .pause-option {
+        font-size: 8px;
+        padding: 10px 16px;
+        padding-left: 28px;
+    }
+}
+
+/* ================================================
+   DISABLE TRANSITIONS
+   ================================================ */
+#pauseScreen,
+#pauseContent,
+.pause-option {
+    transition: none !important;
+}
+
+/* ================================================
+   ANIMATED PAUSE ICON (Optional)
+   ================================================ */
+.pause-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.pause-icon::before,
+.pause-icon::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 60px;
+    background: var(--color-gold);
+    top: 0;
+}
+
+.pause-icon::before {
+    left: 0;
+}
+
+.pause-icon::after {
+    right: 0;
+}

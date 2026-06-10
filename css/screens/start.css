@@ -1,0 +1,326 @@
+/* ================================================
+   START SCREEN - SNES TITLE SCREEN STYLE
+   Classic RPG title screen with ASCII art
+   ================================================ */
+
+/* ================================================
+   START SCREEN CONTAINER
+   ================================================ */
+#startScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        #1a1a2e 0%,
+        #16213e 50%,
+        #0f3460 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+#startScreen.hidden {
+    display: none;
+}
+
+/* ================================================
+   TITLE BACKGROUND CANVAS
+   ================================================ */
+#titleBackgroundCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+    image-rendering: pixelated;
+}
+
+/* ================================================
+   ASCII TITLE
+   ================================================ */
+#asciiTitle {
+    font-family: monospace;
+    font-size: clamp(4px, 0.8vw, 8px);
+    line-height: 1;
+    color: var(--color-gold);
+    text-align: center;
+    white-space: pre;
+    margin: 0 0 40px 0;
+    padding: 30px;
+    background: rgba(42, 58, 90, 0.7);
+    
+    /* ASCII art border */
+    box-shadow: 
+        0 0 0 3px rgba(106, 122, 154, 0.5),
+        0 0 0 6px rgba(74, 90, 122, 0.5),
+        0 6px 0 0 rgba(26, 42, 74, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.3);
+    
+    text-shadow: 
+        2px 2px 0 rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ================================================
+   START BUTTON
+   ================================================ */
+#startButton {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    padding: 20px 40px;
+    background: var(--btn-green);
+    color: var(--text-white);
+    border: none;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    font-weight: normal;
+    margin-bottom: 20px;
+    
+    /* Green start button border */
+    box-shadow: 
+        0 8px 0 #1a7a3a,
+        0 -4px 0 #4edd91,
+        -4px 0 0 #25a555,
+        4px 0 0 #25a555,
+        -4px -4px 0 #3ed771,
+        4px -4px 0 #3ed771,
+        -4px 8px 0 #0f5a2a,
+        4px 8px 0 #0f5a2a,
+        0 0 30px rgba(46, 204, 113, 0.5);
+}
+
+#startButton:hover {
+    background: #27ae60;
+    box-shadow: 
+        0 8px 0 #156a30,
+        0 -4px 0 #3ecd71,
+        -4px 0 0 #1f9545,
+        4px 0 0 #1f9545,
+        -4px -4px 0 #2ebd61,
+        4px -4px 0 #2ebd61,
+        -4px 8px 0 #0a4a20,
+        4px 8px 0 #0a4a20,
+        0 0 40px rgba(46, 204, 113, 0.7);
+}
+
+#startButton:active {
+    transform: translateY(6px);
+    box-shadow: 
+        0 2px 0 #1a7a3a,
+        0 -4px 0 #4edd91,
+        -4px 0 0 #25a555,
+        4px 0 0 #25a555;
+}
+
+/* Blinking animation */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 
+            0 8px 0 #1a7a3a,
+            0 -4px 0 #4edd91,
+            -4px 0 0 #25a555,
+            4px 0 0 #25a555,
+            -4px -4px 0 #3ed771,
+            4px -4px 0 #3ed771,
+            -4px 8px 0 #0f5a2a,
+            4px 8px 0 #0f5a2a,
+            0 0 30px rgba(46, 204, 113, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 8px 0 #1a7a3a,
+            0 -4px 0 #4edd91,
+            -4px 0 0 #25a555,
+            4px 0 0 #25a555,
+            -4px -4px 0 #3ed771,
+            4px -4px 0 #3ed771,
+            -4px 8px 0 #0f5a2a,
+            4px 8px 0 #0f5a2a,
+            0 0 50px rgba(46, 204, 113, 0.9);
+    }
+}
+
+#startButton {
+    animation: pulse-glow 2s infinite;
+}
+
+/* ================================================
+   CREDITS TEXT
+   ================================================ */
+#startScreen p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--text-gray);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-top: 20px;
+}
+
+/* ================================================
+   PRESS START PROMPT (Optional)
+   ================================================ */
+.press-start-prompt {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--text-white);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-top: 30px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.3; }
+}
+
+/* ================================================
+   SUBTITLE/TAGLINE (Optional)
+   ================================================ */
+.game-subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--btn-hover);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-bottom: 40px;
+    text-align: center;
+    line-height: 1.8;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ================================================
+   MOBILE RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    #asciiTitle {
+        font-size: clamp(3px, 0.6vw, 6px);
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    
+    #startButton {
+        font-size: 14px;
+        padding: 16px 32px;
+    }
+    
+    #startScreen p {
+        font-size: 8px;
+        margin-top: 16px;
+    }
+    
+    .game-subtitle {
+        font-size: 9px;
+        margin-bottom: 30px;
+    }
+    
+    .press-start-prompt {
+        font-size: 10px;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #asciiTitle {
+        font-size: clamp(2px, 0.5vw, 5px);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    #startButton {
+        font-size: 12px;
+        padding: 14px 28px;
+    }
+    
+    #startScreen p {
+        font-size: 7px;
+    }
+    
+    .game-subtitle {
+        font-size: 8px;
+        margin-bottom: 20px;
+    }
+}
+
+/* ================================================
+   LANDSCAPE MOBILE ADJUSTMENT
+   ================================================ */
+@media (max-width: 768px) and (orientation: landscape) {
+    #startScreen {
+        padding: 10px;
+    }
+    
+    #asciiTitle {
+        font-size: clamp(2px, 0.4vw, 5px);
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
+    #startButton {
+        font-size: 10px;
+        padding: 10px 20px;
+        margin-bottom: 10px;
+    }
+    
+    #startScreen p {
+        font-size: 6px;
+        margin-top: 10px;
+    }
+    
+    .game-subtitle {
+        font-size: 7px;
+        margin-bottom: 15px;
+    }
+}
+
+/* ================================================
+   RETRO VIGNETTE EFFECT
+   ================================================ */
+#startScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Ensure content is above vignette */
+#asciiTitle,
+#startButton,
+#startScreen p,
+.game-subtitle,
+.press-start-prompt {
+    position: relative;
+    z-index: 2;
+}
+
+/* ================================================
+   VERSION NUMBER (Optional)
+   ================================================ */
+.version-number {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0;
+}

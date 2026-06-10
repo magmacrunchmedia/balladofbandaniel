@@ -1,0 +1,600 @@
+/* ================================================
+   CONSOLIDATED SIDEBAR - THE BALLAD OF BANDANIEL
+   Right-side HUD with hands, health, and backpack
+   SNES RPG aesthetic with hand-focused inventory
+   ================================================ */
+
+/* ================================================
+   SIDEBAR CONTAINER
+   ================================================ */
+#gameSidebar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: auto;  /* Auto width based on content */
+    z-index: 100;
+    font-family: 'Press Start 2P', monospace;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;  /* Increased gap so bottom shadows show */
+}
+
+/* ================================================
+   SIDEBAR PANEL BASE (shared styling)
+   ================================================ */
+.sidebar-panel {
+    background: var(--snes-bg);
+    padding: 8px;
+    
+    /* SNES window border */
+    box-shadow: 
+        0 0 0 3px var(--snes-light),
+        0 0 0 6px var(--snes-medium),
+        0 0 0 9px var(--snes-dark),
+        0 6px 0 0 var(--snes-darkest);
+}
+
+.sidebar-panel-header {
+    font-size: 8px;
+    color: var(--text-gray);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    margin-bottom: 6px;
+    margin-top: 2px;  /* Add top margin to keep header inside border */
+    text-align: center;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--snes-dark);
+}
+
+/* ================================================
+   HANDS PANEL
+   ================================================ */
+#handsPanel {
+    /* Ensure border shows properly */
+    box-shadow: 
+        0 0 0 3px var(--snes-light),
+        0 0 0 6px var(--snes-medium),
+        0 0 0 9px var(--snes-dark),
+        0 6px 0 0 var(--snes-darkest) !important;
+        overflow: visible !important;
+}
+
+.hands-container {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    justify-content: center;  /* Center the two slots */
+    overflow: visible !important;
+    padding-top: 0px; /* Give space for animation */
+}
+
+/* Individual hand slot */
+.hand-slot {
+    background: var(--snes-dark);
+    padding: 4px;
+    position: relative;
+    width: 80px !important;
+    height: 90px !important;  /* INCREASED: More space for label below */
+    min-height: 90px !important;
+    max-height: 90px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: visible !important;
+    
+    /* Inset effect */
+    box-shadow: 
+        inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+        inset -2px -2px 0 rgba(255, 255, 255, 0.1);
+}
+
+.hand-slot:hover {
+    background: var(--snes-medium);
+}
+
+/* Hand label (L/R) - HIDDEN, not needed */
+.hand-label {
+    display: none;
+}
+
+/* Empty hand state */
+.hand-slot.empty {
+    opacity: 0.6;
+}
+
+.hand-slot.empty::after {
+    content: 'empty';
+    font-size: 7px;
+    color: var(--text-gray);
+    text-transform: lowercase;
+}
+
+/* Hand with item - NO borders on slot, wrapper handles all borders */
+.hand-slot.has-item {
+    border: none !important;
+    box-shadow: 
+        inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+        inset -2px -2px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Remove any required/optional classes from slot itself */
+.hand-slot.required,
+.hand-slot.optional {
+    border: none !important;
+
+}
+
+/* Item wrapper - contains canvas and gets the colored border */
+.hand-item-wrapper {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+}
+
+/* Required item border (gold) - directly on wrapper */
+/*.hand-item-wrapper.required {
+    border: 3px solid #FFD700;
+    box-shadow: 0 0 0 2px #FFD700;
+}*/
+
+/* Optional item border (cyan) - directly on wrapper */
+/*.hand-item-wrapper.optional {
+    border: 3px solid #00D4FF;
+    box-shadow: 0 0 0 2px #00D4FF;
+} */
+
+/* Item icon in hand */
+.hand-item-icon {
+    width: 32px;  /* CHANGED: Reduced from 40px */
+    height: 32px;  /* CHANGED: Reduced from 40px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;  /* CHANGED: Reduced from 32px */
+    image-rendering: pixelated;
+}
+
+.hand-item-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    image-rendering: pixelated;
+}
+
+/* Canvas for pixel art rendering */
+.hand-item-canvas {
+    width: 56px;     /* INCREASED: More width for scaled items */
+    height: 56px;    /* INCREASED: More height to prevent cutoff */
+    position: absolute;
+    top: 12px;       /* ADJUSTED: Start higher in the slot */
+    left: 50%;
+    transform: translateX(-27.5%) translateY(+20%) scale(2.0);  /* Center horizontally only */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Item name label (below canvas) */
+.hand-item-name {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-47.5%);
+    font-size: 6px;
+    color: var(--text-white);
+    background: rgba(0, 0, 0, 0.9);  /* Darker background for better readability */
+    padding: 4px 6px;
+    white-space: normal;      /* ✅ Allow text to wrap to multiple lines */
+    max-width: 72px;
+    width: 72px;
+    text-align: center;
+    line-height: 1.5;         /* Better spacing for multi-line */
+    opacity: 0;               /* ✅ Hidden by default */
+    pointer-events: none;
+    text-transform: lowercase;
+    z-index: 10;
+    overflow: visible;
+    transition: opacity 0.2s ease;  /* Smooth fade in/out */
+    border-radius: 2px;
+}
+
+/* Show label on hover */
+.hand-slot:hover .hand-item-name {
+    opacity: 1;  /* ✅ Fade in on hover */
+}
+
+/* ================================================
+   HEALTH PANEL - DUKE NUKEM STYLE FACE
+   ================================================ */
+#healthPanel {
+    /* Inherits from .sidebar-panel */
+}
+
+/* Face container */
+#sidebarHealthFaceContainer {
+    width: 100%;
+    height: 80px;  /* Square-ish container for the face */
+    background: var(--snes-dark);
+    position: relative;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Inset border effect */
+    box-shadow: 
+        inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+        inset -3px -3px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Canvas for drawing BANDANIEL's face */
+#healthFaceCanvas {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Health text below face */
+#sidebarHealthBarText {
+    font-size: 8px;
+    color: var(--text-white);
+    text-align: center;
+    margin-top: 6px;
+    letter-spacing: 0;
+}
+
+/* Health state indicator (color changes) */
+.health-face-high {
+    /* Pristine banana - no bruises */
+}
+
+.health-face-medium {
+    /* Some bruises appearing */
+}
+
+.health-face-low {
+    /* Heavily bruised, looking bad */
+}
+
+.health-face-critical {
+    /* Almost dead, very bruised */
+}
+
+/* Legacy bar styles - keeping for backward compatibility but hidden */
+#sidebarHealthBarContainer {
+    display: none;  /* Hidden - using face instead */
+}
+
+#sidebarHealthBarFill {
+    display: none;  /* Hidden - using face instead */
+}
+
+/* ================================================
+   BACKPACK OVERLAY (central, large - looking inside the bag)
+   ================================================ */
+#backpackOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 500;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#backpackOverlay.active {
+    display: flex;
+}
+
+.backpack-overlay-inner {
+    background: var(--snes-bg);
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    
+    /* Classic SNES menu window */
+    box-shadow: 
+        0 0 0 4px var(--snes-light),
+        0 0 0 8px var(--snes-medium),
+        0 0 0 12px var(--snes-dark),
+        0 12px 0 0 var(--snes-darkest),
+        0 16px 0 0 var(--snes-black);
+}
+
+.backpack-overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--snes-dark);
+    padding: 12px 20px;
+    border-bottom: 3px solid var(--snes-darkest);
+}
+
+.backpack-overlay-title {
+    color: var(--color-gold);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    text-transform: lowercase;
+}
+
+.backpack-overlay-close {
+    color: var(--text-gray);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+}
+
+.backpack-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 16px 20px;
+}
+
+.backpack-slot {
+    background: var(--snes-dark);
+    padding: 8px;
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        inset 2px 2px 0 rgba(0, 0, 0, 0.4),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.backpack-slot.has-item {
+    background: var(--snes-medium);
+}
+
+.backpack-slot.empty {
+    opacity: 0.5;
+}
+
+.backpack-slot-item {
+    font-size: 8px;
+    color: var(--text-white);
+    margin-bottom: 6px;
+    text-transform: lowercase;
+}
+
+.backpack-slot-empty {
+    font-size: 7px;
+    color: var(--text-gray);
+}
+
+.backpack-slot-btn {
+    font-size: 6px;
+    padding: 4px 8px;
+    background: var(--btn-default);
+    color: var(--text-white);
+    border: none;
+    cursor: pointer;
+    text-transform: lowercase;
+}
+
+.backpack-slot-btn:hover {
+    background: var(--btn-hover);
+    color: var(--text-black);
+}
+
+.backpack-capacity {
+    font-size: 9px;
+    color: var(--text-gray);
+    text-align: center;
+    padding: 0 20px 8px;
+}
+
+.backpack-actions {
+    padding: 8px 20px 16px;
+    text-align: center;
+}
+
+.backpack-btn {
+    font-size: 8px;
+    padding: 8px 16px;
+    background: var(--btn-default);
+    color: var(--text-white);
+    border: none;
+    cursor: pointer;
+    text-transform: lowercase;
+    box-shadow: 
+        0 2px 0 var(--btn-default-dark),
+        0 -1px 0 var(--btn-default-light);
+}
+
+.backpack-btn:hover {
+    background: var(--btn-hover);
+    color: var(--text-black);
+}
+
+.backpack-btn:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 1px 0 var(--btn-default-dark),
+        0 -1px 0 var(--btn-default-light);
+}
+
+/* ================================================
+   ACTION BUTTONS (optional - for future use)
+   ================================================ */
+.sidebar-action-button {
+    background: var(--btn-default);
+    color: var(--text-white);
+    padding: 8px;
+    font-size: 7px;
+    text-align: center;
+    cursor: pointer;
+    text-transform: lowercase;
+    
+    /* SNES button border */
+    box-shadow: 
+        0 4px 0 var(--btn-default-dark),
+        0 -2px 0 var(--btn-default-light);
+}
+
+.sidebar-action-button:hover {
+    background: var(--btn-hover);
+    color: var(--text-black);
+}
+
+.sidebar-action-button:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 2px 0 var(--btn-default-dark),
+        0 -2px 0 var(--btn-default-light);
+}
+
+/* ================================================
+   HAND SWAP HINT (shows when both hands have items)
+   ================================================ */
+.hand-swap-hint {
+    display: none;  /* Completely hidden for now */
+    font-size: 6px;
+    color: var(--text-gray);
+    text-align: center;
+    margin-top: 6px;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.2s;
+    grid-column: 1 / -1;
+}
+
+.hands-container.both-full .hand-swap-hint {
+    opacity: 1;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    #gameSidebar {
+        width: 140px;
+        top: 15px;
+        right: 15px;
+        gap: 10px;
+    }
+    
+    .sidebar-panel {
+        padding: 10px;
+    }
+    
+    .sidebar-panel-header {
+        font-size: 7px;
+        margin-bottom: 8px;
+    }
+    
+    .hand-slot {
+        min-height: 44px;
+        padding: 3px;
+    }
+    
+    .hand-item-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 24px;
+    }
+    
+    .hand-label {
+        font-size: 6px;
+        padding: 2px 3px;
+    }
+    
+    #sidebarHealthBarContainer {
+        height: 16px;
+    }
+    
+    #sidebarHealthBarText {
+        font-size: 6px;
+        margin-top: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    #gameSidebar {
+        width: 120px;
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+    
+    .sidebar-panel {
+        padding: 8px;
+    }
+    
+    .hand-slot {
+        min-height: 40px;
+        padding: 2px;
+    }
+    
+    .hand-item-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 20px;
+    }
+}
+
+/* ================================================
+   DISABLE SMOOTH TRANSITIONS (SNES-style)
+   ================================================ */
+.sidebar-panel,
+.hand-slot,
+.sidebar-action-button {
+    transition: none !important;
+}
+
+/* Allow only health bar width transition */
+#sidebarHealthBarFill {
+    transition: width 0.3s ease !important;
+}
+
+/* ================================================
+   SPECIAL EFFECTS (Optional)
+   ================================================ */
+
+/* Pulse animation for required items */
+@keyframes required-pulse {
+    0%, 100% {
+        box-shadow: 
+            inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+            inset -2px -2px 0 rgba(255, 255, 255, 0.1),
+            0 0 0 2px var(--color-gold);
+    }
+    50% {
+        box-shadow: 
+            inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+            inset -2px -2px 0 rgba(255, 255, 255, 0.1),
+            0 0 0 2px var(--color-gold),
+            0 0 8px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.hand-slot.has-item.required.pulse {
+    animation: required-pulse 2s infinite;
+}
+
+/* Low health warning pulse */
+@keyframes low-health-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+#sidebarHealthBarFill.health-low {
+    animation: low-health-pulse 1s infinite;
+}

@@ -1,0 +1,341 @@
+/* ================================================
+   DIALOGUE BOX - SNES RPG TEXT BOX STYLE
+   Classic RPG dialogue with character names
+   ================================================ */
+
+/* ================================================
+   DIALOGUE BOX CONTAINER
+   ================================================ */
+#dialogueBox {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 800px;
+    background: var(--snes-bg);
+    padding: 0;
+    z-index: 200;
+    display: none;
+    
+    /* Classic SNES RPG text box border */
+    box-shadow: 
+        0 0 0 4px #ffffff,
+        0 0 0 8px var(--snes-medium),
+        0 0 0 12px var(--snes-dark),
+        0 8px 0 0 var(--snes-darkest),
+        0 12px 0 0 var(--snes-black);
+}
+
+#dialogueBox.active {
+    display: block;
+}
+
+/* ================================================
+   CHARACTER NAME PLATE
+   ================================================ */
+#dialogueName {
+    background: var(--snes-dark);
+    color: var(--color-gold);
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    font-weight: normal;
+    border-bottom: 3px solid var(--snes-darkest);
+    
+    /* Name plate top border highlight */
+    box-shadow: 
+        inset 0 2px 0 rgba(255, 255, 255, 0.1);
+}
+
+#dialogueName:empty {
+    display: none;
+}
+
+/* ================================================
+   DIALOGUE TEXT AREA
+   ================================================ */
+#dialogueText {
+    padding: 20px 24px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--text-white);
+    line-height: 2;
+    letter-spacing: 0;
+    min-height: 100px;
+    background: var(--snes-bg);
+    
+    /* Subtle inner shadow for depth */
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================
+   CONTINUE PROMPT
+   ================================================ */
+#dialogueContinue {
+    position: absolute;
+    bottom: 12px;
+    right: 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-gray);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.3; }
+}
+
+/* ================================================
+   DIALOGUE CHOICES
+   ================================================ */
+#dialogueChoices {
+    display: none;
+    padding: 8px 24px 16px;
+}
+
+.dialogue-choice {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--text-white);
+    padding: 8px 12px;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    border-left: 3px solid transparent;
+}
+
+.dialogue-choice.active {
+    color: var(--color-gold);
+    border-left-color: var(--color-gold);
+    background: rgba(255, 215, 0, 0.08);
+}
+
+.dialogue-choice:hover {
+    color: var(--color-gold);
+}
+
+/* ================================================
+   TEXT TYPING EFFECT (Optional)
+   ================================================ */
+.dialogue-text-typing {
+    overflow: hidden;
+}
+
+.dialogue-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 12px;
+    background: var(--text-white);
+    margin-left: 4px;
+    animation: cursor-blink 0.8s infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* ================================================
+   DIALOGUE VARIANTS
+   ================================================ */
+
+/* Quest dialogue - gold accent */
+#dialogueBox.quest-dialogue #dialogueName {
+    background: linear-gradient(to bottom, #996c00, #664500);
+    color: var(--color-gold);
+    border-bottom-color: #664500;
+}
+
+/* Important dialogue - cyan accent */
+#dialogueBox.important-dialogue #dialogueName {
+    background: linear-gradient(to bottom, #006a7f, #00505f);
+    color: var(--btn-hover);
+    border-bottom-color: #00505f;
+}
+
+/* Shop dialogue - green accent */
+#dialogueBox.shop-dialogue #dialogueName {
+    background: linear-gradient(to bottom, #1a7a3a, #0f5a2a);
+    color: var(--btn-green);
+    border-bottom-color: #0f5a2a;
+}
+
+/* ================================================
+   DIALOGUE CHOICES (for future use)
+   ================================================ */
+#dialogueChoices {
+    display: none;
+    padding: 0 24px 20px 24px;
+    background: var(--snes-bg);
+}
+
+.dialogue-choice {
+    background: var(--snes-dark);
+    color: var(--text-white);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    border: 2px solid var(--snes-medium);
+    position: relative;
+    padding-left: 32px;
+}
+
+.dialogue-choice::before {
+    content: '▶';
+    position: absolute;
+    left: 12px;
+    color: var(--color-gold);
+    opacity: 0;
+}
+
+.dialogue-choice:hover {
+    background: var(--snes-medium);
+    border-color: var(--snes-light);
+}
+
+.dialogue-choice:hover::before {
+    opacity: 1;
+}
+
+.dialogue-choice.selected {
+    background: var(--btn-hover);
+    color: var(--text-black);
+    border-color: #33e0ff;
+}
+
+.dialogue-choice.selected::before {
+    color: var(--text-black);
+    opacity: 1;
+}
+
+/* ================================================
+   PORTRAIT (Optional - for future NPC portraits)
+   ================================================ */
+#dialoguePortrait {
+    position: absolute;
+    top: -60px;
+    left: 20px;
+    width: 80px;
+    height: 80px;
+    background: var(--snes-dark);
+    display: none;
+    
+    /* Portrait frame */
+    box-shadow: 
+        0 0 0 3px var(--snes-light),
+        0 0 0 6px var(--snes-medium),
+        0 4px 0 0 var(--snes-darkest);
+    
+    image-rendering: pixelated;
+}
+
+#dialoguePortrait img {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    #dialogueBox {
+        width: 90%;
+        bottom: 20px;
+        box-shadow: 
+            0 0 0 3px #ffffff,
+            0 0 0 6px var(--snes-medium),
+            0 0 0 9px var(--snes-dark),
+            0 6px 0 0 var(--snes-darkest);
+    }
+    
+    #dialogueName {
+        font-size: 9px;
+        padding: 8px 16px;
+    }
+    
+    #dialogueText {
+        font-size: 8px;
+        padding: 16px 20px;
+        min-height: 80px;
+        line-height: 2.2;
+    }
+    
+    #dialogueContinue {
+        font-size: 7px;
+        bottom: 10px;
+        right: 16px;
+    }
+    
+    .dialogue-choice {
+        font-size: 8px;
+        padding: 10px 14px;
+        padding-left: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    #dialogueBox {
+        width: 95%;
+        bottom: 15px;
+    }
+    
+    #dialogueName {
+        font-size: 8px;
+        padding: 6px 12px;
+    }
+    
+    #dialogueText {
+        font-size: 7px;
+        padding: 12px 16px;
+        min-height: 70px;
+        line-height: 2.4;
+    }
+    
+    #dialogueContinue {
+        font-size: 6px;
+    }
+    
+    #dialoguePortrait {
+        width: 60px;
+        height: 60px;
+        top: -50px;
+    }
+}
+
+/* ================================================
+   DISABLE SMOOTH TRANSITIONS
+   ================================================ */
+#dialogueBox,
+#dialogueName,
+#dialogueText,
+.dialogue-choice {
+    transition: none !important;
+}
+
+/* ================================================
+   CLASSIC SNES TEXT EFFECTS
+   ================================================ */
+
+/* Text shadow for readability (subtle) */
+#dialogueText {
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Optional: Pixelated text rendering */
+#dialogueText,
+#dialogueName {
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}

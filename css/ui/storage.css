@@ -1,0 +1,167 @@
+/* storage.css - Item storage panel styling */
+
+#storagePanel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #3a4466;
+    border: 8px solid #2a3346;
+    box-shadow: 
+        0 0 0 2px #ffd700,
+        0 0 0 4px #2a3346,
+        8px 8px 0 rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    z-index: 1000;
+    min-width: 600px;
+    max-width: 700px;
+    font-family: 'Press Start 2P', monospace;
+}
+
+#storagePanel h3 {
+    margin: 0 0 15px 0;
+    color: #ffd700;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+#storagePanel h4 {
+    margin: 0 0 10px 0;
+    color: #00d4ff;
+    font-size: 10px;
+    text-align: center;
+}
+
+.storage-capacity {
+    text-align: center;
+    color: #2ecc71;
+    font-size: 10px;
+    margin-bottom: 15px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #2a3346;
+}
+
+.storage-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.storage-column {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 4px solid #2a3346;
+    padding: 10px;
+}
+
+.storage-list {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.storage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    margin-bottom: 5px;
+    background: #2a3346;
+    border: 2px solid #1a2336;
+    color: #fff;
+    font-size: 8px;
+}
+
+.storage-item:hover {
+    background: #3a4466;
+    border-color: #ffd700;
+}
+
+.storage-item-name {
+    flex: 1;
+    margin: 0 8px;
+}
+
+.storage-action-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 6px 10px;
+    background: #ffd700;
+    color: #2a3346;
+    border: 3px solid #d4af37;
+    box-shadow: 
+        0 0 0 1px #ffd700,
+        3px 3px 0 rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.storage-action-btn:hover {
+    background: #ffed4e;
+    border-color: #ffd700;
+}
+
+.storage-action-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 
+        0 0 0 1px #ffd700,
+        1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.storage-empty {
+    text-align: center;
+    color: #888;
+    font-size: 8px;
+    padding: 20px;
+    font-style: italic;
+}
+
+#storageClose {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 10px 20px;
+    background: #3a4466;
+    color: #ffd700;
+    border: 4px solid #2a3346;
+    box-shadow: 
+        0 0 0 2px #ffd700,
+        4px 4px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    text-transform: uppercase;
+}
+
+#storageClose:hover {
+    background: #4a5476;
+    color: #ffed4e;
+}
+
+#storageClose:active {
+    transform: translate(2px, 2px);
+    box-shadow: 
+        0 0 0 2px #ffd700,
+        2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar styling for storage lists */
+.storage-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.storage-list::-webkit-scrollbar-track {
+    background: #1a2336;
+}
+
+.storage-list::-webkit-scrollbar-thumb {
+    background: #ffd700;
+    border: 2px solid #1a2336;
+}
+
+.storage-list::-webkit-scrollbar-thumb:hover {
+    background: #ffed4e;
+}

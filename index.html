@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE BALLAD OF BANDANIEL</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="gameContainer">
+
+        <div id="startScreen">
+            <canvas id="titleBackgroundCanvas"></canvas>
+    <pre id="asciiTitle">
+ ___________  __    __    _______                                                                 
+("     _   ")/" |  | "\  /"     "|                                                                
+ )__/  \\__/(:  (__)  :)(: ______)                                                                
+    \\_ /    \/      \/  \/    |                                                                  
+    |.  |    //  __  \\  // ___)_                                                                 
+    \:  |   (:  (  )  :)(:      "|                                                                
+     \__|    \__|  |__/  \_______)                                                                
+                                                                                                  
+ _______       __      ___      ___            __       ________         ______    _______        
+|   _  "\     /""\    |"  |    |"  |          /""\     |"      "\       /    " \  /"     "|       
+(. |_)  :)   /    \   ||  |    ||  |         /    \    (.  ___  :)     // ____  \(: ______)       
+|:     \/   /' /\  \  |:  |    |:  |        /' /\  \   |: \   ) ||    /  /    ) :)\/    |         
+(|  _  \\  //  __'  \  \  |___  \  |___    //  __'  \  (| (___\ ||   (: (____/ // // ___)         
+|: |_)  :)/   /  \\  \( \_|:  \( \_|:  \  /   /  \\  \ |:       :)    \        / (:  (            
+(_______/(___/    \___)\_______)\_______)(___/    \___)(________/      \"_____/   \__/            
+                                                                                                  
+ _______       __      _____  ___   ________       __      _____  ___    __     _______  ___      
+|   _  "\     /""\    (\"   \|"  \ |"      "\     /""\    (\"   \|"  \  |" \   /"     "||"  |     
+(. |_)  :)   /    \   |.\\   \    |(.  ___  :)   /    \   |.\\   \    | ||  | (: ______)||  |     
+|:     \/   /' /\  \  |: \.   \\  ||: \   ) ||  /' /\  \  |: \.   \\  | |:  |  \/    |  |:  |     
+(|  _  \\  //  __'  \ |.  \    \. |(| (___\ || //  __'  \ |.  \    \. | |.  |  // ___)_  \  |___  
+|: |_)  :)/   /  \\  \|    \    \ ||:       :)/   /  \\  \|    \    \ | /\  |\(:      "|( \_|:  \ 
+(_______/(___/    \___)\___|\____\)(________/(___/    \___)\___|\____\)(__\_|_)\_______) \_______)
+    </pre>            
+            <button id="startButton">START</button>
+            
+        </div>
+
+        <!-- NEW: Consolidated Sidebar (replaces itemCounter, healthBar, inventoryButton) -->
+        <div id="gameSidebar">
+            
+            <!-- Hands Panel -->
+            <div id="handsPanel" class="sidebar-panel">
+                <div class="sidebar-panel-header">hands</div>
+                <div class="hands-container">
+                    <div id="leftHandSlot" class="hand-slot empty"></div>
+                    <div id="rightHandSlot" class="hand-slot empty"></div>
+                </div>
+                <div class="hand-swap-hint">press Q to swap</div>
+            </div>
+            
+            <!-- Health Panel -->
+            <div id="healthPanel" class="sidebar-panel">
+                <div class="sidebar-panel-header">🍌 health</div>
+                <div id="sidebarHealthBarContainer">
+                    <div id="sidebarHealthBarFill" class="health-high" style="width: 100%"></div>
+                </div>
+                <div id="sidebarHealthBarText">100 / 100</div>
+            </div>
+            
+        </div>
+        
+        <!-- Backpack Overlay (central, large - looking inside the bag) -->
+        <div id="backpackOverlay">
+            <div class="backpack-overlay-inner">
+                <div class="backpack-overlay-header">
+                    <span class="backpack-overlay-title">backpack</span>
+                    <span class="backpack-overlay-close">[B] close</span>
+                </div>
+                <div id="backpackSlots" class="backpack-slots">
+                    <!-- Slots are generated dynamically -->
+                </div>
+                <div class="backpack-capacity">
+                    <span id="backpackCapacityText">0 / 6</span>
+                </div>
+                <div class="backpack-actions">
+                    <button id="backpackUnequipBtn" class="backpack-btn">Take off</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interact Prompt -->
+        <div id="interactPrompt" style="display: none;">
+            Press SPACE to interact
+        </div>
+
+        <!-- Inventory Panel (fullscreen overlay - stays as is) -->
+        <div id="inventoryPanel">
+            <div>
+                <h3>Your Inventory</h3>
+                <div id="inventoryList"></div>
+                <button id="inventoryClose">Close</button>
+            </div>
+        </div>
+
+        <!-- Storage Panel (stays as is) -->
+        <div id="storagePanel">
+            <h3>🎒 Storage</h3>
+            <div class="storage-capacity">Space: <span id="storageCapacity">0 / 5</span></div>
+            <div class="storage-container">
+                <div class="storage-column">
+                    <h4>Your Items</h4>
+                    <div id="storageInventoryList" class="storage-list"></div>
+                </div>
+                <div class="storage-column">
+                    <h4>Stored Items</h4>
+                    <div id="storageStoredList" class="storage-list"></div>
+                </div>
+            </div>
+            <button id="storageClose">Close</button>
+        </div>
+
+        <!-- Shop Panel (stays as is) -->
+        <div id="shopPanel">
+            <h2 class="shop-title">🛒 Merchant's Shop</h2>
+            <div id="shopItems"></div>
+            <button id="shopClose">Close Shop</button>
+        </div>
+
+        <!-- Pause Screen (stays as is) -->
+        <div id="pauseScreen">
+            <div id="pauseContent">
+                <h2>⏸️ PAUSED</h2>
+                <p>Game is paused</p>
+                <p>Press ESC or P to resume</p>
+                <button id="resumeButton">Resume Game</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen (stays as is) -->
+        <div id="gameOverScreen">
+            <div id="gameOverContent">
+                <h2>💀 GAME OVER</h2>
+                <p>You have been defeated!</p>
+                <p id="finalStats"></p>
+                <button id="restartButton">Restart Game</button>
+            </div>
+        </div>        
+
+        <canvas id="gameCanvas" width="1024" height="768"></canvas>
+
+        <!-- Dialogue Box (stays as is) -->
+        <div id="dialogueBox">
+            <div id="dialogueName"></div>
+            <div id="dialogueText"></div>
+            <div id="dialogueChoices"></div>
+            <div id="dialogueContinue">Press SPACE to continue</div>
+        </div>
+
+        <!-- Collapsible Controls Button (bottom-right corner) -->
+        <div id="controlsButton">❓</div>        
+
+        <!-- Collapsible Controls Panel -->
+        <div id="controlsPanel">
+            <div id="controlsPanelContent">
+                <h3>Controls</h3>
+                <div class="control-item">
+                    <strong>Movement:</strong> Arrow Keys or WASD
+                </div>
+                <div class="control-item">
+                    <strong>Interact:</strong> SPACE
+                </div>
+                <div class="control-item">
+                    <strong>Pause:</strong> ESC or P
+                </div>
+                <div class="control-item">
+                    <strong>Drop Item:</strong> X
+                </div>
+                <div class="control-item">
+                    <strong>Swap Hands:</strong> Q (future)
+                </div>
+                <div class="control-item">
+                    <strong>Backpack:</strong> B (future)
+                </div>
+                <hr style="border-color: rgba(255,255,255,0.2); margin: 15px 0;">
+                <div class="control-item" style="font-size: 12px; color: #aaa;">
+                    <strong>Debug Info:</strong><br>
+                    Position: <span id="position">0, 0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    
+    <!-- Config -->
+    <script src="js/config/constants.js"></script>
+    <script src="js/config/tent-configs.js"></script>
+    <script src="js/config/bussy-config.js"></script>
+    
+    <!-- World Data -->
+    <script src="js/world/maps.js"></script>
+    <script src="js/world/bus-unlock-system.js"></script>
+    
+    <!-- Entity Data -->
+    <script src="js/entities/large-props.js"></script>
+    <script src="js/entities/small-props.js"></script>
+    <script src="js/entities/props-registry.js"></script>
+    <script src="js/entities/items-data.js"></script>
+    <script src="js/entities/npcs-data.js"></script>
+    <script src="js/entities/enemies.js"></script>
+    
+    <!-- Rendering Components -->
+    <!-- Sprite files (load before renderer) -->
+    <script src="js/rendering/sprites/bandaniel.js"></script>
+    <script src="js/rendering/sprites/npcs.js"></script>
+    <script src="js/rendering/sprites/bussy.js"></script>
+    <script src="js/rendering/sprites/strawberto.js"></script>
+    <script src="js/rendering/sprites/carl.js"></script>
+    <script src="js/rendering/sprites/plantain-jane.js"></script>
+    <script src="js/rendering/sprites/elektra.js"></script>
+    <script src="js/rendering/sprites.js"></script>
+    <script src="js/rendering/sprites/kim.js"></script>
+    <script src="js/rendering/sprites/chuck-cherry.js"></script>
+    <script src="js/rendering/items.js"></script>
+    <script src="js/rendering/props.js"></script>
+    <script src="js/rendering/oak-tree.js"></script>
+    <script src="js/rendering/tent.js"></script> 
+    <script src="js/rendering/campfire.js"></script>
+    <script src="js/rendering/port-o-potty.js"></script>
+    <script src="js/rendering/camping-props.js"></script>
+    <script src="js/rendering/bus-props.js"></script>
+    <script src="js/rendering/bus-interior-walls.js"></script>
+    
+    <!-- Systems -->
+    <script src="js/systems/collision.js"></script>
+    <script src="js/systems/world-items.js"></script>
+    <script src="js/systems/inventory.js"></script>
+    <script src="js/systems/shop.js"></script>
+    <script src="js/systems/storage.js"></script>
+    <script src="js/systems/steering-wheel-interaction.js"></script>
+    <script src="js/systems/backpack-interaction.js"></script>
+    
+    <!-- Entities -->
+    <script src="js/entities/player.js"></script>
+    
+    <!-- UI -->
+    <script src="js/ui/sidebar.js"></script>  
+    <script src="js/ui/input-handler-additions.js"></script>
+    <script src="js/ui/interactions.js"></script>
+    <script src="js/ui/integration.js"></script>
+    <script src="js/ui/dialogue.js"></script>
+    <script src="js/ui/screens.js"></script>
+    <script src="js/ui/controls-toggle.js"></script>
+    <script src="js/ui/title-background.js"></script>
+
+    <!-- Rendering -->
+    <script src="js/rendering/tiles.js"></script>
+    <script src="js/rendering/renderer.js"></script>
+    
+    <!-- Core Engine (MUST load before main.js) -->
+    <script src="js/core/camera.js"></script>
+    <script src="js/core/input.js"></script>
+    <script src="js/world/transitions.js"></script>
+    <script src="js/core/game.js"></script>
+
+    <!-- Main Entry Point (defines canvas and ctx, starts game) -->
+    <!-- ⚠️ MUST load AFTER game.js so gameLoop is defined -->
+    <script src="js/main.js"></script>
+
+
+
+</body>
+</html>

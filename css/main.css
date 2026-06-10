@@ -1,0 +1,215 @@
+/* ================================================
+   THE BALLAD OF BANDANIEL - MAIN STYLESHEET
+   SNES-inspired RPG aesthetic
+   ================================================ */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Import component stylesheets */
+@import url('base.css');
+@import url('ui/sidebar.css');  /* ✅ NEW: Consolidated sidebar */
+@import url('ui/hud.css');  /* DEPRECATED: kept for backward compatibility */
+@import url('ui/dialogue.css');
+@import url('ui/inventory.css');
+@import url('ui/controls.css');
+@import url('screens/start.css');
+@import url('screens/pause.css');
+@import url('screens/gameover.css');
+@import url('screens/shop.css');
+@import url('ui/storage.css');
+
+/* ================================================
+   GLOBAL RESET & BASE STYLES
+   ================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', monospace;
+    background: #000000;
+    color: #ffffff;
+    overflow: hidden;
+    letter-spacing: 0;
+    line-height: 1.6;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* ================================================
+   MAIN GAME CONTAINER
+   ================================================ */
+#gameContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000000;
+}
+
+/* ================================================
+   CANVAS STYLING
+   ================================================ */
+#gameCanvas,
+#titleBackgroundCanvas {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    border: none;
+}
+
+#gameCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000000;
+}
+
+/* ================================================
+   SNES-STYLE BUTTON BASE (shared across all buttons)
+   ================================================ */
+button {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    font-weight: normal;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: none;
+    padding: 12px 20px;
+    background: #5a6988;
+    color: #ffffff;
+    
+    /* Chunky SNES-style border */
+    box-shadow: 
+        0 6px 0 #2a3344,
+        0 -4px 0 #7a89a8,
+        -4px 0 0 #4a5968,
+        4px 0 0 #4a5968,
+        -4px -4px 0 #6a7988,
+        4px -4px 0 #6a7988,
+        -4px 6px 0 #1a2334,
+        4px 6px 0 #1a2334;
+}
+
+button:hover {
+    background: #00d4ff;
+    color: #000000;
+    box-shadow: 
+        0 6px 0 #006a7f,
+        0 -4px 0 #33e0ff,
+        -4px 0 0 #00a0bf,
+        4px 0 0 #00a0bf,
+        -4px -4px 0 #00c4df,
+        4px -4px 0 #00c4df,
+        -4px 6px 0 #00505f,
+        4px 6px 0 #00505f;
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 #2a3344,
+        0 -4px 0 #7a89a8,
+        -4px 0 0 #4a5968,
+        4px 0 0 #4a5968;
+}
+
+/* ================================================
+   SNES-STYLE WINDOW BASE (shared across all windows)
+   ================================================ */
+.snes-window {
+    background: #3a4466;
+    border: none;
+    border-radius: 0;
+    
+    /* Classic SNES window border */
+    box-shadow: 
+        0 0 0 4px #6a7a9a,
+        0 0 0 8px #4a5a7a,
+        0 0 0 12px #2a3a5a,
+        0 12px 0 0 #1a2a4a,
+        0 16px 0 0 #0a1a3a;
+}
+
+/* Alternative light window style */
+.snes-window-light {
+    background: #d4d4e4;
+    border: none;
+    border-radius: 0;
+    
+    box-shadow: 
+        0 0 0 4px #ffffff,
+        0 0 0 8px #a4a4b4,
+        0 0 0 12px #747484,
+        0 12px 0 0 #545464,
+        0 16px 0 0 #343444;
+}
+
+/* ================================================
+   TEXT STYLING
+   ================================================ */
+h1, h2, h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-weight: normal;
+    text-transform: lowercase;
+    letter-spacing: 0;
+}
+
+p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0;
+}
+
+/* ================================================
+   REMOVE ALL SMOOTH TRANSITIONS
+   ================================================ */
+* {
+    transition: none !important;
+    animation-duration: 0s !important;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE BASE
+   ================================================ */
+@media (max-width: 768px) {
+    button {
+        font-size: 10px;
+        padding: 10px 16px;
+    }
+    
+    p {
+        font-size: 9px;
+        line-height: 2;
+    }
+    
+    .snes-window {
+        box-shadow: 
+            0 0 0 3px #6a7a9a,
+            0 0 0 6px #4a5a7a,
+            0 0 0 9px #2a3a5a,
+            0 9px 0 0 #1a2a4a;
+    }
+}
+
+@media (max-width: 480px) {
+    button {
+        font-size: 8px;
+        padding: 8px 12px;
+    }
+    
+    p {
+        font-size: 8px;
+    }
+}
