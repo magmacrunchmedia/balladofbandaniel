@@ -5,7 +5,7 @@ A browser-based top-down adventure RPG featuring **BANDANIEL**, an anthropomorph
 
 **Theme:** "80's, but future" - A retrofuture aesthetic combining neon colors, geometric patterns, synthwave vibes, and retro-futuristic technology.
 
-**Current Status:** Phase 9 - Crinkly Tent Floor Texture (February 6, 2026)
+**Current Status:** Backpack Storage System & Dialogue Choices (June 2026)
 
 ---
 
@@ -191,46 +191,51 @@ BANDANIEL is just trying to get home, but he needs help from **da Bussy**, an an
 - **Item collection** - Required and optional items with 2-item carry limit (two hands)
 - **Inventory system** - Visual UI with descriptions and close button
 - **Drop system** - Press **X** to drop items (appears 2 tiles in front, auto-pickup when walking over)
-- **Storage system** - 5-item capacity in da Bussy interior, accessible via backpack
+- **Storage system** - Item storage in da Bussy interior, accessible via backpack
 - **NPC dialogue** - Context-aware conversations with multi-line support
+- **Dialogue choices** - Selectable options in dialogue box (Up/Down to navigate, SPACE to select)
 - **Tent entry/exit** - Automatic walk-in transitions with position locking
 - **Bus entry/exit** - Key-based entry, automatic transitions
 - **Interaction system** - SPACE to interact with NPCs and props (facing-based detection)
+- **Backpack system** - Equip/unequip backpack prop, central overlay for contents, B key toggle
 
 ### Item Collection System ✅ IMPLEMENTED
 - **Required Items:** Must collect to progress (da Bussy's Keys)
 - **Optional Items:** Exploration bonuses (Flashlight)
-- **Carry Limit:** 3 items maximum in inventory
-- **Storage System:** 5 additional slots in da Bussy's backpack
-- **Inventory Panel:** Click 📦 to view collected items, click Close button to exit
-- **Storage Panel:** Click backpack in bus to access storage (two-column layout)
-- **Item Counter:** Shows progress (🔑 Items: 0 / 1)
-- **Notifications:** Gold border (required), blue border (optional)
+- **Carry Limit:** 2 items maximum (left hand + right hand)
+- **Backpack:** Equip from da Bussy interior, stores up to 6 items, press B to access
+- **Inventory Panel:** Visual hands display in sidebar
+- **Storage Panel:** Central overlay showing backpack contents (press B to toggle)
+- **Item Counter:** Shows progress
+- **Notifications:** Dialogue-box style for all messages
 
 ### Controls
 | Input | Action |
 |-------|--------|
 | Arrow Keys / WASD | Move BANDANIEL |
-| SPACE | Interact with NPCs and props |
+| SPACE | Interact with NPCs and props / Advance dialogue / Select dialogue choice |
 | X | Quick-drop first item (drops 2 tiles ahead) |
+| B | Toggle backpack contents overlay (when backpack equipped) |
+| Q | Swap hands |
+| E | Drop right hand item |
 | ESC / P | Pause/unpause |
-| Click 📦 Inventory | Open inventory |
-| Click Backpack (in bus) | Open storage |
+| Up/Down arrows | Navigate dialogue choices (when choices visible) |
 | Click Close | Close panels |
 | ? Button | Toggle controls help |
 
 **Note:** 
 - Tent/bus entry/exit is automatic - just walk onto the entrance tiles
 - Interactions require facing the object (no diagonal interactions)
-- Storage only accessible inside da Bussy interior
+- Backpack equipped from da Bussy interior - press B to look inside
 - Dropped items auto-pickup when walking over them
 - Cannot drop required quest items
+- Dialogue choices: navigate with Up/Down, select with SPACE
 
 ---
 
 ## 📁 Project Structure
 
-### Current Organization (February 2026)
+### Current Organization (June 2026)
 ```
 project/
 ├── index.html
@@ -241,9 +246,10 @@ project/
 │   ├── base.css            # Variables, utilities, pixel rendering
 │   ├── ui/
 │   │   ├── hud.css         # Health, items, buttons
-│   │   ├── dialogue.css    # NPC dialogue boxes
+│   │   ├── dialogue.css    # NPC dialogue boxes + choices
 │   │   ├── inventory.css   # Inventory panel
 │   │   ├── storage.css     # Storage panel
+│   │   ├── sidebar.css     # Sidebar HUD + backpack overlay
 │   │   └── controls.css    # Controls help menu
 │   └── screens/
 │       ├── start.css       # Title screen
@@ -252,7 +258,9 @@ project/
 │
 └── js/
     ├── config/
-    │   └── constants.js    # Tile IDs, colors, dimensions
+    │   ├── constants.js    # Tile IDs, colors, dimensions
+    │   ├── tent-configs.js # Centralized tent configuration
+    │   └── bussy-config.js # Centralized bus configuration
     │
     ├── core/
     │   ├── game.js         # Game loop, movement, collisions
@@ -261,60 +269,60 @@ project/
     │
     ├── world/
     │   ├── maps.js         # Tutorial Garden + tent interiors + bus interior
-    │   └── transitions.js  # Tent/bus entry/exit (unified system)
+    │   └── transitions.js  # Tent/bus entry/exit (factory functions)
     │
     ├── entities/
     │   ├── player.js       # Health system
-    │   ├── prop-positions.js   # All props (trees, tents, walls, camping items, bus props)
-    │   ├── items-data.js       # Items, inventory, item positions
-    │   ├── npcs-data.js        # NPC definitions and dialogue
-    │   ├── furniture.js        # (NOT IN USE - studio/house furniture from prototype)
-    │   ├── coins.js            # (NOT IN USE - coin collectibles)
-    │   └── enemies.js          # (NOT IN USE - enemy system disabled)
+    │   ├── items-data.js   # Items, inventory, backpack types
+    │   ├── npcs-data.js    # NPC definitions and dialogue
+    │   ├── large-props.js  # Multi-tile structures (trees, tents, buses)
+    │   ├── small-props.js  # Single-tile props (camping items, furniture)
+    │   ├── props-registry.js # Unified prop system with collision gen
+    │   ├── port-o-potty.js # Port-o-potty rendering + collision
+    │   └── items.js        # Item sprites (keys, flashlight)
     │
     ├── systems/
-    │   ├── collision.js    # Collision detection
-    │   ├── inventory.js    # Item management UI
-    │   ├── storage.js      # Storage system
-    │   └── shop.js         # (NOT IN USE - shop system disabled)
+    │   ├── collision.js        # Collision detection
+    │   ├── inventory.js        # Item management, hand system, drop
+    │   ├── storage.js          # Storage system (backpack + chest)
+    │   ├── backpack-interaction.js # Backpack equip/unequip + dialogue
+    │   ├── world-items.js      # Dropped items on ground
+    │   ├── bus-unlock-system.js # Key-based bus entry
+    │   └── steering-wheel-interaction.js # da Bussy dialogue
     │
     ├── rendering/
-    │   ├── renderer.js     # Main coordinator with Y-sorting
-    │   ├── tiles.js        # Tile rendering (grass, water, walls, doors)
-    │   ├── sprites.js      # Sprite router
-    │   ├── oak-tree.js     # Oak tree sprite (7×7 tiles)
-    │   ├── tent.js         # Tent sprite (red/blue, 6×4 tiles)
+    │   ├── renderer.js         # Main coordinator with Y-sorting
+    │   ├── tiles.js            # Tile rendering (grass, water, walls, tent floors)
+    │   ├── sprites.js          # Sprite router
+    │   ├── oak-tree.js         # Oak tree sprite (7×7 tiles)
+    │   ├── tent.js             # Tent sprite (red/blue, 6×4 tiles)
+    │   ├── campfire.js         # Animated campfire
     │   ├── camping-props.js    # Camping equipment sprites
+    │   ├── bus-interior-walls.js # SNES-style bus wall rendering
     │   ├── bus-props.js        # Bus interior props (steering wheel)
-    │   ├── sprites/            # Character sprites
-    │   │   ├── bandaniel.js    # Player character (4 directions)
-    │   │   ├── npcs.js         # NPC sprite router
-    │   │   ├── bussy.js        # da Bussy sprite (8×3 tiles)
-    │   │   ├── strawberto.js   # Strawberry NPC
-    │   │   ├── carl.js         # Pineapple NPC
-    │   │   ├── plantain-jane.js    # Plantain NPC
-    │   │   └── elektra.js      # Orange NPC
-    │   │   └── kim.js      # Kiwi NPC
-    │   ├── items.js        # Item sprites (keys, flashlight)
-    │   └── props.js        # (NOT IN USE - prototype furniture sprites)
+    │   ├── props.js            # Camping prop rendering (getPropsForMap)
+    │   ├── items.js            # Item sprites
+    │   └── sprites/
+    │       ├── bandaniel.js    # Player character (4 directions + backpack)
+    │       ├── npcs.js         # NPC sprite router
+    │       ├── bussy.js        # da Bussy sprite
+    │       ├── strawberto.js   # Strawberry NPC
+    │       ├── carl.js         # Pineapple NPC
+    │       ├── plantain-jane.js # Plantain NPC
+    │       ├── elektra.js      # Orange NPC
+    │       └── kim.js          # Kiwi NPC
     │
     ├── ui/
-    │   ├── dialogue.js         # NPC dialogue system (multi-line support)
-    │   ├── interactions.js     # Prop/NPC interaction detection (facing-based)
-    │   ├── integration.js      # Storage UI bridge
-    │   ├── screens.js          # Start/pause/game over screens
-    │   ├── controls-toggle.js  # Controls help toggle
-    │   └── title-background.js # Animated title background
+    │   ├── dialogue.js             # Dialogue system with choice support
+    │   ├── interactions.js         # Prop/NPC interaction detection
+    │   ├── integration.js          # Storage UI bridge
+    │   ├── sidebar.js              # Sidebar HUD + backpack overlay
+    │   ├── input-handler-additions.js # Hand swap, drop, backpack toggle
+    │   ├── screens.js              # Start/pause/game over screens
+    │   ├── controls-toggle.js      # Controls help toggle
+    │   └── title-background.js     # Animated title background
     │
-    ├── theme/
-    │   └── studio/         # (NOT IN USE - prototype studio theme)
-    │
-    ├── main.js             # Entry point
-    │
-    └── diagnostic/         # Debug scripts (can be removed)
-        ├── diagnostic-storage.js
-        ├── space-key-diagnostic.js
-        └── error-wrapper.js
+    └── main.js             # Entry point
 ```
 
 ### Files NOT Currently in Use
@@ -333,32 +341,29 @@ These files exist from earlier prototype phases but are not loaded in the game:
 
 ## 🐛 Known Issues & Current Work
 
-### 🔴 Active Issues (February 2, 2026)
+### 🟢 Recently Fixed
 
-#### Tent Entrance Z-Ordering Bug 🐛 INVESTIGATING
-**Problem:** During tent entry transition cooldown, BANDANIEL briefly appears to go "underneath" the green grass pixels between the tent ropes (entrance row).
+#### Item Drop Bug ✅ FIXED
+- `addWorldItem()` now receives correct `item.type.id` string instead of object
+- Dropped items persist on ground and can be picked up
 
-**Details:**
-- Happens only during the 200ms cooldown period after entering
-- Player renders behind entrance grass instead of in front
-- Occurs on both red and blue tents
-- Very brief visual glitch (hard to screenshot)
+#### Steering Wheel Interaction ✅ FIXED
+- Steering wheel priority check added to `checkPropInteraction()`
+- SPACE key properly triggers da Bussy dialogue
 
-**Current Status:** Attempted fix by adjusting tent sortY to `prop.y + 3.5` (entrance row) instead of `prop.y + 4` (bottom). Issue persists - may need to split tent rendering into body/entrance layers.
+#### Interact Prompt for Auto-Pickup Items ✅ FIXED
+- No longer shows "Press SPACE to pick up" for auto-pickup items
 
-**Technical Context:**
-- Y-sorting system in renderer.js (line ~258)
-- Player sortY: `player.y`
-- Tent sortY: `prop.y + 3.5` (attempted fix)
-- Entrance is at tent row 3 (e.g., y=53 for tent at y=50)
+#### Backpack Storage System ✅ NEW
+- Equip backpack from da Bussy interior via dialogue choice
+- Central overlay (B key) shows backpack contents
+- Take off backpack places it near player
+- Backpack sprite visible on character in all directions
 
-**Next Steps to Try:**
-1. Split tent rendering: draw body (rows 0-2) and entrance (row 3) separately
-2. Adjust player sortY to `player.y + 0.5` instead of tent sortY
-3. Debug player position during transition cooldown
-
-#### Storage Interaction Works from All Sides ✅ FIXED
-Previously only worked from left side - now uses facing-based detection and works from all 4 directions.
+#### Dialogue Choices ✅ NEW
+- Selectable options in dialogue box (Up/Down + SPACE)
+- Used for backpack equip/unequip flow
+- Reusable system for future NPC choices
 
 ### 🟡 Medium Priority
 
@@ -367,10 +372,10 @@ Previously only worked from left side - now uses facing-based detection and work
 - Props in da Bussy interior (except backpack) can be walked through
 - Props on outside map can be walked through
 - Only Tent #1 has working prop collision
-- **Root cause:** Collision system needs updating for new file structure
 
-#### Bottom Fence Collision
-- Fence at bottom of Tutorial Garden needs collision refinement
+#### Tent Entrance Z-Ordering Bug
+- During transition cooldown, player briefly appears behind tent entrance grass
+- Very brief visual glitch
 
 ### 🟢 Low Priority / Polish
 
@@ -384,22 +389,23 @@ Previously only worked from left side - now uses facing-based detection and work
 
 ## 📊 Current Status
 
-### ✅ Working Systems (February 2, 2026)
-- BANDANIEL sprite (all directions with walk animation)
+### ✅ Working Systems (June 2026)
+- BANDANIEL sprite (all directions with walk animation + backpack visual)
 - da Bussy sprite (quest giver, multi-tile) with enterable interior
 - Tutorial Garden map (150×40 tiles) with pond, fences, trees, flowers
 - Two tent interiors (red ELEKTRA's tent, blue STRAWBERTO's tent)
-- da Bussy interior (16×10 horizontal bus, psychedelic mobile home)
+- da Bussy interior (24×10 horizontal bus, psychedelic mobile home)
 - Tent & bus entry/exit transitions (automatic, position-locked, camera-snapped)
 - Key-based bus entry system (requires collecting da Bussy's keys)
 - Camping props in tent #1 (8 items with collision)
 - Camping props in tent #2 (6 items, no collision yet)
 - Bus interior props (steering wheel, backpack, cooler)
 - Item collection (required/optional) with 2-item carry limit (two hands)
-- Inventory system with SNES-styled close button
+- Inventory system with SNES-styled sidebar
 - **Left/Right hand system with pixel art rendering** ✅
-- **Dropped items system (Q/E/X keys to drop, auto-pickup on walk-over)** ✅
-- **Storage system in da Bussy interior (5 item capacity, backpack at 77,52)** ✅
+- **Dropped items system (X key drops, auto-pickup on walk-over)** ✅
+- **Backpack storage system (equip from da Bussy, 6-item capacity, B key overlay)** ✅
+- **Dialogue choice system (Up/Down navigate, SPACE selects)** ✅
 - **Context-aware multi-line NPC dialogue** ✅
 - **Facing-based interaction detection (works from all 4 sides)** ✅
 - SPACE key interaction system (props, storage, NPCs)
@@ -409,58 +415,64 @@ Previously only worked from left side - now uses facing-based detection and work
 - Comprehensive collision detection (tiles, props, NPCs, tent/bus walls)
 - Complete SNES-style UI system with authentic aesthetics
 
-### ⚠️ Known Issues (In Progress - February 2, 2026)
-1. **🐛 Item Drop Bug** - Keys disappear when dropped via X/E keys
-   - **Root Cause:** `addWorldItem()` receives `item.type` object instead of `item.type.id` string
-   - **Error:** `⚠️ Item definition not found for: {id: 'bussy_keys', name: "da Bussy's Keys", ...}`
-   - **Fix Required:** Update `input-handler-additions.js` lines 116 & 194
-   - **Change:** `addWorldItem(item.type, ...)` → `addWorldItem(item.type.id, ..., currentMap)`
-   - **Status:** Fixed version provided (input-handler-additions-FIXED.js)
-
-2. **🎮 Steering Wheel Interaction** - Not yet working
-   - **Root Cause:** Using `interactions.js v6.1` instead of `v9`
-   - **Missing Feature:** No steering wheel priority check in `checkPropInteraction()`
-   - **Fix Required:** Replace `js/ui/interactions.js` with v9 version
-   - **What v9 adds:** Steering wheel check as PRIORITY 1, before storage/other props
-   - **Status:** Fixed version provided (interactions-v9.js)
-
-3. **📢 Interact Prompt** - Shows "Press SPACE to pick up" for auto-pickup items
-   - **Root Cause:** `updateInteractPrompt()` in v6.1 still checks regular items
-   - **Fix Required:** Upgrade to interactions.js v9 (same file as issue #2)
-   - **Status:** Fixed in v9 version
+### ⚠️ Known Issues (In Progress)
+1. **Prop collision** - Camping props in Tent #2 and da Bussy interior can be walked through (except backpack)
+2. **Tent entrance z-ordering** - Brief visual glitch during transition cooldown
 
 ### 🔧 Next Steps (Priority Order)
 
-#### ⚡ Critical Fixes (Must Complete First)
-1. **Fix item drop bug** - Replace input-handler-additions.js with FIXED version
-2. **Enable steering wheel** - Replace interactions.js with v9 version  
-3. **Test complete quest flow:**
-   - Collect keys → Drop keys (X/E) → Pick up dropped keys → Enter bus
-   - Walk to steering wheel → Press SPACE → Keys given to da Bussy ✅
+#### Short Term
+1. Fix prop collision for all interiors
+2. Add more camping props outside tents
+3. Add psychedelic decorations to bus interior
 
-#### Immediate (After Critical Fixes)
-4. **Fix tent entrance Z-ordering bug** - Split tent rendering or adjust sorting
-5. **Fix prop collision system** - Enable collision for all camping props
+#### Medium Term
+4. Implement Level 2 transition flow (decide how da Bussy drives to next location)
+5. Create Level 2 map (new location)
 
-#### Short Term (This Month)
-4. Add psychedelic decorations to bus interior
-5. Polish oak tree sprites
-6. Add more camping props outside tents
-7. Refine bottom fence collision
-8. Implement Z-ordering for tree tops
-
-#### Long Term (Future Phases)
-9. Create Level 2 (new location accessed via da Bussy)
-10. Add more NPCs and quest items
-11. Implement level selection via steering wheel
-12. Add synthwave background music
-13. Create story cutscenes
+#### Long Term
+6. Add more NPCs and quest items
+7. Implement level selection via steering wheel
+8. Add synthwave background music
+9. Create story cutscenes
 
 ---
 
 ## 🛠️ Recent Changes
 
-### February 3, 2026 - Animated Campfire & Prop System Reorganization ✅
+### June 2026 - Backpack Storage System, Dialogue Choices & Code Cleanup ✅
+
+#### Backpack Storage System
+1. ✅ Backpack prop in da Bussy interior - interact to equip via dialogue choice
+2. ✅ Backpack visual on Bandaniel sprite (all 4 directions, olive-green with straps)
+3. ✅ Central overlay panel (B key) shows backpack contents - 6 slot grid
+4. ✅ Take off backpack places it near player (re-shows prop)
+5. ✅ Backpack storage data persists in STORAGE_DATA
+
+#### Dialogue Choice System
+6. ✅ Added `choices` parameter to `showDialogue()` - selectable options in dialogue box
+7. ✅ Up/Down arrows navigate, SPACE selects
+8. ✅ Used for backpack equip flow: "Put it on" / "Leave it"
+9. ✅ All notifications use dialogue box style (no more yellow showMessage popups)
+
+#### Backpack Sprite Rendering
+10. ✅ Fixed front view: straps drawn behind face, thinner and at shoulder edges
+11. ✅ Fixed back view: backpack drawn AFTER body, wider with pocket and clasp
+12. ✅ Side views: backpack peeks from behind character
+
+#### Code Cleanup (Pre-Expansion Debt Reduction)
+13. ✅ Removed 250+ debug console.log/info/debug statements
+14. ✅ Removed ~260 lines of commented-out dead code
+15. ✅ Removed deprecated HTML elements
+16. ✅ DRYed up tent/bus transitions (8 functions → 3 factory functions)
+17. ✅ Fixed collision Math.round → Math.floor inconsistency
+18. ✅ Removed 22 stale ✅ FIX comments
+19. ✅ Added SPACE key to advance dialogue instead of re-triggering
+
+#### Git Setup
+20. ✅ Repository pushed to github.com/magmacrunchmedia/balladofbandaniel
+
+### February 6, 2026 - Crinkly Tent Floor Texture ✅
 
 #### Animated Campfire Implementation
 1. ✅ Added animated campfire with 12-frame flickering animation:
@@ -761,34 +773,52 @@ Previously only worked from left side - now uses facing-based detection and work
 - **Game:** Top-down 2D adventure RPG with SNES aesthetic
 - **Engine:** Vanilla JS + HTML5 Canvas (30 FPS)
 - **Current Focus:** Tutorial Garden (Level 1) with tent & bus interiors
-- **Recent Updates:** Crinkly tent floor texture (Feb 6, 2026), Port-o-potty collision fix, bussy-config.js system, bus interior walls
+- **Recent Updates:** Backpack storage system, dialogue choices, code cleanup (June 2026)
 - **Tech Stack:** No frameworks, no build tools, pure vanilla
+- **Repo:** github.com/magmacrunchmedia/balladofbandaniel
 
 ### Development Notes
-- Y-sorting implemented in renderer.js (line ~258)
+- Y-sorting implemented in renderer.js
 - Interaction system uses facing-based detection (not distance)
-- NPC dialogue supports multi-line arrays with context awareness
-- Storage system fully functional with 5-item capacity
-- **Dropped items system: X key drops 2 tiles ahead, auto-pickup on collision** ✅
-- **Animated campfire: 12-frame cycle, updates every 3 frames** ✅
-- **Animation variables in tiles.js: waterAnimFrame, campfireAnimFrame** ✅
-- 2-item inventory carry limit + 5-item storage = 7 total slots
-- Files not in use: furniture.js, coins.js, enemies.js, shop.js, theme/studio/
+- NPC dialogue supports multi-line arrays with context awareness + choice system
+- Backpack system: equip via dialogue choice, B key toggles central overlay
+- **Backpack stores 6 items, persists in STORAGE_DATA** ✅
+- **Dialogue choices: Up/Down navigate, SPACE selects (check display==='block')** ✅
+- **All notifications use dialogue box (showDialogue), not showMessage** ✅
+- Dropped items system: X key drops 2 tiles ahead, auto-pickup on collision
+- Animated campfire: 12-frame cycle, updates every 3 frames
+- 2-item hand inventory + backpack storage = 8+ total slots
+
+### Critical Script Load Order
+- `dialogue.js` loaded AFTER `steering-wheel-interaction.js` (prevents overwrite)
+- `integration.js` loaded AFTER `interactions.js` (prevents duplicate handleInteraction)
+- `rendering/props.js` loaded AFTER `props-registry.js` (provides getPropsForMap)
+- `backpack-interaction.js` loaded after `inventory.js` and `props-registry.js`
+
+### Key Conventions
+- **Map names:** camelCase (`bussyInterior`, `tentInterior0`)
+- **Item type IDs:** lowercase (`bussy_keys`, `backpack_medium`)
+- **PROP_POSITIONS keys:** camelCase (`steeringWheel`, `bussy_backpack`)
+- **Starting map:** `currentMap = 'tentInterior0'`
+- **Game runs at 30 FPS** with frame-rate limiting in game.js
 
 ### File Organization
-- **Prop files reorganized (Feb 3, 2026):**
-  - `large-props.js` - Multi-tile structures (trees, tents, buses, walls) - uses BUSSY_CONFIG
-  - `small-props.js` - Single-tile props (camping items, furniture, port-o-potties)
-  - `props-registry.js` - Unified system with helper functions
+- **Prop files:**
+  - `large-props.js` - Multi-tile structures (trees, tents, buses)
+  - `small-props.js` - Single-tile props (camping items, port-o-potties)
+  - `props-registry.js` - Unified system with collision generation
 - **Config files:**
   - `tent-configs.js` - Centralized tent configuration
-  - `bussy-config.js` - Centralized bus configuration (NEW Feb 5, 2026)
+  - `bussy-config.js` - Centralized bus configuration
 - **Rendering files:**
-  - `bus-interior-walls.js` - SNES-style bus wall rendering (NEW Feb 5, 2026)
-  - `port-o-potty.js` - Port-o-potty rendering with fixed collision (UPDATED Feb 5, 2026)
-  - `tiles.js` - Includes drawCrinklyTentFloor() for tent floor textures (UPDATED Feb 6, 2026)
-- **Animation in tiles.js:** Water and campfire animation variables
-- **Main initialization:** main.js waits for all scripts with window.load
+  - `bus-interior-walls.js` - SNES-style bus wall rendering
+  - `campfire.js` - Animated campfire
+  - `tiles.js` - Water/campfire animation, tent floor textures
+  - `props.js` - Camping prop rendering (getPropsForMap/getCampingPropsForMap)
+- **System files:**
+  - `backpack-interaction.js` - Backpack equip/unequip with dialogue
+  - `steering-wheel-interaction.js` - da Bussy dialogue
+  - `world-items.js` - Dropped items on ground
 
 ### Code Style
 - SNES-style 16px tiles (no sub-pixel rendering)
@@ -800,9 +830,9 @@ Previously only worked from left side - now uses facing-based detection and work
 
 ---
 
-**Last Updated:** February 6, 2026
-**Version:** Phase 9 - Crinkly Tent Floor Texture Complete
-**Next Milestone:** Add more props to Tutorial Garden, implement level selection system in da Bussy
+**Last Updated:** June 9, 2026
+**Version:** Backpack Storage System & Dialogue Choices Complete
+**Next Milestone:** Level 2 transition flow, prop collision fixes
 
 ---
 
