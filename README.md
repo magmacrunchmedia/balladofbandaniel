@@ -454,6 +454,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 1. Fix prop collision for all interiors
 2. Add more camping props outside tents
 3. Add psychedelic decorations to bus interior
+4. Finger guns — theatrical weapon (0 damage), Z key attack with "BANG" text effect. NPC gives them to player. Teaches weapon mechanic for future levels with real weapons.
 
 #### Medium Term
 4. Implement Level 2 transition flow (decide how da Bussy drives to next location)
@@ -498,6 +499,13 @@ These files exist from earlier prototype phases but are not loaded in the game:
 #### Dialogue System Fix
 17. ✅ Fixed advanceDialogue() — now reads stored _activeDialogue instead of re-checking default
 18. ✅ Prevents old dialogue from appearing after special dialogue (monocle, keys)
+
+#### Favicon
+19. ✅ SNES-style Bandaniel face favicon (32×32, dark blue background, sunglasses, cigarette)
+
+#### Weapons System (Planned)
+20. ✅ Added finger guns concept to TODO — theatrical weapon, 0 damage, Z key attack
+21. ✅ Planned weapon progression: trivial (finger guns) → real weapons in future levels
 
 #### Health System Fix
 9. ✅ Fixed dual health bug — `damagePlayer()`/`healPlayer()` now modify `player.health`
