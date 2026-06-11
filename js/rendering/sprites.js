@@ -11,7 +11,8 @@ function drawSprite(type, x, y, direction, frame, gameFrame) {
             break;
         // NEW CHARACTERS - ADD THESE:
         case 'strawberto':
-            drawStrawberto(ctx, x, y, direction, frame, false); // Change to true for monocle
+            const hasMonocle = typeof STRAWBERTO_QUEST !== 'undefined' && STRAWBERTO_QUEST.monocleReturned;
+            drawStrawberto(ctx, x, y, direction, frame, hasMonocle);
             break;
         case 'carl':
             drawCarl(ctx, x, y, direction, frame, gameFrame || 0);

@@ -45,6 +45,16 @@ const ITEM_TYPES = {
         canDrop: true,
         canStore: true,
     },
+
+    monocle: {
+        id: 'monocle',
+        name: "Strawberto's Monocle",
+        description: 'A fancy gold-rimmed monocle. Belongs to a distinguished strawberry.',
+        sprite: 'monocle',
+        required: true,
+        canDrop: false,
+        canStore: false,
+    },
 };
 
 /* =====================================================
@@ -88,7 +98,16 @@ const itemsOutside = [
 ];
 
 const itemsTentInterior0 = [];
-const itemsTentInterior1 = [];
+const itemsTentInterior1 = [
+    {
+        type: ITEM_TYPES.monocle,
+        // On the floor in ELEKTRA's tent, away from her
+        x: 20,
+        y: 105,
+        collected: false,
+        map: 'tentInterior1',
+    },
+];
 const itemsTentInterior2 = [];
 const itemsTentInterior3 = [];
 const itemsBussyInterior = [];

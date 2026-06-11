@@ -9,6 +9,8 @@ function drawItem(x, y, itemType, frame) {
         drawFlashlight(centerX, centerY, frame);
     } else if (itemType.sprite === 'cigarettes') {
         drawCigarettes(centerX, centerY, frame);
+    } else if (itemType.sprite === 'monocle') {
+        drawMonocle(centerX, centerY, frame);
     }
     // Add more item sprite types here
 }
@@ -70,7 +72,53 @@ function drawKeys(centerX, centerY, frame) {
     // Shadow
     ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
     ctx.beginPath();
-    ctx.ellipse(centerX, centerY + 12, 6, 2, 0, 0, Math.PI * 2);
+    ctx.ellipse(centerX, centerY + 12, 5, 2, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawMonocle(centerX, centerY, frame) {
+    // Gentle floating animation
+    const floatOffset = Math.sin(frame * 0.5) * 2;
+    const y = centerY + floatOffset;
+
+    // Chain (gold, hanging down)
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(centerX, y + 2);
+    ctx.quadraticCurveTo(centerX + 6, y + 8, centerX + 3, y + 12);
+    ctx.stroke();
+
+    // Monocle lens (gold rim, glass center)
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(centerX, y - 2, 5, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Glass (transparent white)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.beginPath();
+    ctx.arc(centerX, y - 2, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Glass reflection
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.beginPath();
+    ctx.arc(centerX - 1, y - 3.5, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Gold rim highlight
+    ctx.strokeStyle = '#ffe44d';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(centerX, y - 2, 5, -0.5, 0.5);
+    ctx.stroke();
+
+    // Shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.beginPath();
+    ctx.ellipse(centerX, centerY + 12, 5, 2, 0, 0, Math.PI * 2);
     ctx.fill();
 }
 

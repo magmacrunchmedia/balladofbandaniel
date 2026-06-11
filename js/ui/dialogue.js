@@ -106,6 +106,19 @@ function showDialogue(npc, onCloseCallback, choices) {
             rawDialogue = npc.dialogueWithKeys;
         }
     }
+    
+    // Check if we have Strawberto's monocle
+    if (npc.dialogueWithMonocle && typeof playerInventory !== 'undefined' && typeof STRAWBERTO_QUEST !== 'undefined') {
+        if (!STRAWBERTO_QUEST.monocleReturned) {
+            const hasMonocle = (playerInventory.leftHand && playerInventory.leftHand.type.id === 'monocle') || 
+                               (playerInventory.rightHand && playerInventory.rightHand.type.id === 'monocle');
+            if (hasMonocle) {
+                rawDialogue = npc.dialogueWithMonocle;
+                // Flag to complete quest on dialogue close
+                window._strawbertoQuestPending = true;
+            }
+        }
+    }
 
     // Safety fallback
     if (!rawDialogue) {
@@ -114,6 +127,7 @@ function showDialogue(npc, onCloseCallback, choices) {
     }
 
     currentNPC = npc;
+    npc._activeDialogue = rawDialogue;
     window.dialogueActive = true;
     dialogueName.textContent = npc.name;
     
@@ -150,15 +164,7 @@ function showDialogue(npc, onCloseCallback, choices) {
 function advanceDialogue() {
     if (!currentNPC) return;
     
-    // determine which dialogue is active again to advance correctly
-    let rawDialogue = currentNPC.dialogue;
-    if (currentNPC.dialogueWithKeys && typeof playerInventory !== 'undefined') {
-         const hasKeys = (playerInventory.leftHand && playerInventory.leftHand.type.id === 'bussy_keys') || 
-                        (playerInventory.rightHand && playerInventory.rightHand.type.id === 'bussy_keys');
-         if (hasKeys) rawDialogue = currentNPC.dialogueWithKeys;
-    }
-
-    const lines = Array.isArray(rawDialogue) ? rawDialogue : [rawDialogue];
+    const lines = Array.isArray(currentNPC._activeDialogue) ? currentNPC._activeDialogue : [currentNPC._activeDialogue];
     currentNPC.currentDialogue++;
     
     if (currentNPC.currentDialogue >= lines.length) {
@@ -234,6 +240,24 @@ function closeDialogue() {
     dialogueChoices.innerHTML = '';
     dialogueChoices.style.display = 'none';
     dialogueContinue.style.display = 'block';
+    
+    // Complete Strawberto's monocle quest if pending
+    if (window._strawbertoQuestPending) {
+        window._strawbertoQuestPending = false;
+        if (typeof STRAWBERTO_QUEST !== 'undefined') {
+            STRAWBERTO_QUEST.monocleReturned = true;
+        }
+        // Remove monocle from inventory
+        if (typeof playerInventory !== 'undefined') {
+            if (playerInventory.leftHand && playerInventory.leftHand.type.id === 'monocle') {
+                playerInventory.leftHand = null;
+            } else if (playerInventory.rightHand && playerInventory.rightHand.type.id === 'monocle') {
+                playerInventory.rightHand = null;
+            }
+            if (typeof updateHandsDisplay === 'function') updateHandsDisplay();
+            if (typeof updateInventoryDisplay === 'function') updateInventoryDisplay();
+        }
+    }
     
     // Call the close callback if provided
     if (dialogueCloseCallback) {

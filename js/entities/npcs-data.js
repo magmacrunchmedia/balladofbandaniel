@@ -2,6 +2,11 @@
 // NPC definitions and dialogue
 
 /* =====================
+   QUEST STATE
+===================== */
+const STRAWBERTO_QUEST = { monocleReturned: false };
+
+/* =====================
    NPCs
 ===================== */
 const npcs = [
@@ -41,6 +46,11 @@ const npcs = [
             "Oh hello BANDANIEL, do come in - please.",
             "I find a well-organized camping setup quite essential for comfort.",
             "Have you seen my monocle about? I seem to have misplaced it somewhere."
+        ],
+        dialogueWithMonocle: [
+            "Oh! My monocle! You found it! Thank you, BANDANIEL!",
+            "*puts on monocle* Ahh, much better. Now I can see properly.",
+            "The keys? I saw da Bussy's keys locked in the port-o-potty with the 'Occupado' sign. Strange place for keys..."
         ],
         currentDialogue: 0,
         isShop: false

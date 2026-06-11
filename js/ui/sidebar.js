@@ -129,6 +129,8 @@ function renderHandItem(slotId, itemData) {
         drawFlashlightInHand(ctx, centerX, centerY, sidebarAnimFrame);
     } else if (itemData.type.sprite === 'cigarettes') {
         drawCigarettesInHand(ctx, centerX, centerY, sidebarAnimFrame);
+    } else if (itemData.type.sprite === 'monocle') {
+        drawMonocleInHand(ctx, centerX, centerY, sidebarAnimFrame);
     }
 }
 
@@ -300,6 +302,58 @@ function drawCigarettesInHand(ctx, centerX, centerY, frame) {
     // Cigarette tip
     ctx.fillStyle = '#f5f5f5';
     ctx.fillRect(centerX - 1, y - 4, 2, 1);
+
+    ctx.restore();
+}
+
+/**
+ * Draw monocle in hand slot (adapted from items.js)
+ */
+function drawMonocleInHand(ctx, centerX, centerY, frame) {
+    // Gentle floating animation
+    const floatOffset = Math.sin(frame * 0.05) * 1.5;
+    const y = centerY + floatOffset;
+
+    const scale = 1.3;
+
+    ctx.save();
+    ctx.translate(centerX, y);
+    ctx.scale(scale, scale);
+    ctx.translate(-centerX, -y);
+
+    // Chain (gold)
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(centerX, y + 2);
+    ctx.quadraticCurveTo(centerX + 6, y + 8, centerX + 3, y + 12);
+    ctx.stroke();
+
+    // Monocle lens (gold rim)
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(centerX, y - 2, 5, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Glass
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.beginPath();
+    ctx.arc(centerX, y - 2, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Glass reflection
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.beginPath();
+    ctx.arc(centerX - 1, y - 3.5, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Gold rim highlight
+    ctx.strokeStyle = '#ffe44d';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(centerX, y - 2, 5, -0.5, 0.5);
+    ctx.stroke();
 
     ctx.restore();
 }
