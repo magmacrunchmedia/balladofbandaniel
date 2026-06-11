@@ -27,9 +27,12 @@ const SMALL_PROPS = {
         type: 'campingProp',
         drawFunction: 'drawCooler',
         map: 'bussyInterior',
-        solidTiles: [{dx: 0, dy: 0}],  // SOLID
+        solidTiles: [{dx: 0, dy: 0}],
+        interact: true,
+        interactMessage: 'Press SPACE for a healing beverage',
+        interactType: 'healingCooler',
         name: 'Cooler',
-        description: 'A blue cooler. Probably has drinks inside.'
+        description: 'A blue cooler stocked with healing beverages.'
     },  
 
     bussy_backpack: {
@@ -48,19 +51,21 @@ const SMALL_PROPS = {
         description: 'A well-worn hiking backpack. Perfect for storage.'
     },
 
-    bussy_chest: {
-        x: 65,
+    bussy_bench: {
+        x: 64,
         y: 52,
+        width: 5,
+        height: 1,
         type: 'campingProp',
-        drawFunction: 'drawChest',
+        drawFunction: 'drawBusBench',
         map: 'bussyInterior',
-        solidTiles: [{dx: 0, dy: 0}],  // SOLID
+        solidTiles: [{dx:0,dy:0},{dx:1,dy:0},{dx:2,dy:0},{dx:3,dy:0},{dx:4,dy:0}],
         interact: true,
-        interactMessage: 'Press SPACE to access chest',
+        interactMessage: 'Press SPACE to access bench storage',
         storageItem: true,
-        storageCapacity: 999,  // Unlimited storage
-        name: 'Chest',
-        description: 'A sturdy wooden chest. Perfect for long-term storage.'
+        storageCapacity: 999,
+        name: 'Bench',
+        description: 'A long bus bench with storage underneath. Plenty of room.'
     },
 
     // =====================

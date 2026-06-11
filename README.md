@@ -5,7 +5,7 @@ A browser-based top-down adventure RPG featuring **BANDANIEL**, an anthropomorph
 
 **Theme:** "80's, but future" - A retrofuture aesthetic combining neon colors, geometric patterns, synthwave vibes, and retro-futuristic technology.
 
-**Current Status:** Backpack Storage System & Dialogue Choices (June 2026)
+**Current Status:** Bus Bench, Healing Cooler & Health Fix (June 2026)
 
 ---
 
@@ -90,7 +90,8 @@ BANDANIEL is just trying to get home, but he needs help from **da Bussy**, an an
 - **Props:** 
   - Sidewall-mounted steering wheel for talking to da Bussy (2×2 tiles at 84, 52)
   - Storage backpack (1×1 tile at 77, 52) - Interactive storage container
-  - Cooler (1×1 tile at 70, 52)
+  - Healing cooler (1×1 tile at 70, 52) - Interact for soda (+15 HP) or beer (+25 HP)
+  - Long bus bench (5×1 tiles at 64, 52) - Storage underneath, seating area
 - **Storage System:** 5-item capacity storage accessible via backpack
 - **Configuration:** Uses centralized BUSSY_CONFIG (bussy-config.js)
 - **Future:** Level selection system via steering wheel, psychedelic decorations, resting spot
@@ -365,13 +366,27 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - Used for backpack equip/unequip flow
 - Reusable system for future NPC choices
 
+#### Dual Health Bug Fix ✅ NEW
+- `damagePlayer()` and `healPlayer()` now modify `player.health` directly
+- Sidebar health face UI now reflects actual damage/healing
+- `restartGame()` properly resets `player.health`
+
+#### Bus Bench (replaces chest) ✅ NEW
+- 5-tile-wide bus bench with storage underneath
+- Metal frame + vinyl cushion aesthetic
+- Unlimited storage capacity
+
+#### Healing Cooler ✅ NEW
+- Interact with cooler for healing beverage choice
+- Soda (+15 HP) or Beer (+25 HP)
+- Uses dialogue choice system
+
 ### 🟡 Medium Priority
 
 #### Prop Collision Outside Tent #1
 - Camping props in Tent #2 can be walked through
-- Props in da Bussy interior (except backpack) can be walked through
 - Props on outside map can be walked through
-- Only Tent #1 has working prop collision
+- Only Tent #1 and da Bussy interior have working prop collision
 
 #### Port-o-Potty Interior Collision Bug
 - Player can walk over the bottom wall (door wall) inside enterable port-o-potties
@@ -408,12 +423,14 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - Key-based bus entry system (requires collecting da Bussy's keys)
 - Camping props in tent #1 (8 items with collision)
 - Camping props in tent #2 (6 items, no collision yet)
-- Bus interior props (steering wheel, backpack, cooler)
+- Bus interior props (steering wheel, backpack, cooler, bench)
 - Item collection (required/optional) with 2-item carry limit (two hands)
 - Inventory system with SNES-styled sidebar
 - **Left/Right hand system with pixel art rendering** ✅
 - **Dropped items system (X key drops, auto-pickup on walk-over)** ✅
 - **Backpack storage system (equip from da Bussy, 6-item capacity, B key overlay)** ✅
+- **Bus bench storage (5-tile bench with unlimited storage)** ✅
+- **Healing cooler (soda +15 HP, beer +25 HP via dialogue choice)** ✅
 - **Dialogue choice system (Up/Down navigate, SPACE selects)** ✅
 - **Context-aware multi-line NPC dialogue** ✅
 - **Facing-based interaction detection (works from all 4 sides)** ✅
@@ -425,7 +442,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - Complete SNES-style UI system with authentic aesthetics
 
 ### ⚠️ Known Issues (In Progress)
-1. **Prop collision** - Camping props in Tent #2 and da Bussy interior can be walked through (except backpack)
+1. **Prop collision** - Camping props in Tent #2 and outside map can be walked through
 2. **Tent entrance z-ordering** - Brief visual glitch during transition cooldown
 3. **Port-o-potty interior collision** - Player can walk over bottom wall; walls visually misaligned with collision
 
@@ -435,8 +452,6 @@ These files exist from earlier prototype phases but are not loaded in the game:
 1. Fix prop collision for all interiors
 2. Add more camping props outside tents
 3. Add psychedelic decorations to bus interior
-4. Make chest prop larger (2+ tiles wide, bigger than Bandaniel sprite)
-5. Add cooler prop with "healing beverages" — consumable items that restore player health
 
 #### Medium Term
 4. Implement Level 2 transition flow (decide how da Bussy drives to next location)
@@ -451,6 +466,25 @@ These files exist from earlier prototype phases but are not loaded in the game:
 ---
 
 ## 🛠️ Recent Changes
+
+### June 2026 - Bus Bench, Healing Cooler & Health Fix ✅
+
+#### Bus Bench
+1. ✅ Replaced chest with 5-tile-wide bus bench (64, 52)
+2. ✅ Metal frame + vinyl cushion SNES-style sprite
+3. ✅ Unlimited storage capacity underneath
+4. ✅ Renamed `bussy_chest` → `bussy_bench` in storage system
+
+#### Healing Cooler
+5. ✅ Cooler now interactive — "Press SPACE for a healing beverage"
+6. ✅ Dialogue choice: Soda (+15 HP) or Beer (+25 HP)
+7. ✅ Uses dialogue choice system (Up/Down + SPACE)
+8. ✅ Full health check — no beverages if already at max HP
+
+#### Health System Fix
+9. ✅ Fixed dual health bug — `damagePlayer()`/`healPlayer()` now modify `player.health`
+10. ✅ Sidebar health face UI now reflects actual damage/healing
+11. ✅ `restartGame()` properly resets `player.health`
 
 ### June 2026 - Backpack Storage System, Dialogue Choices & Code Cleanup ✅
 
@@ -785,7 +819,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - **Game:** Top-down 2D adventure RPG with SNES aesthetic
 - **Engine:** Vanilla JS + HTML5 Canvas (30 FPS)
 - **Current Focus:** Tutorial Garden (Level 1) with tent & bus interiors
-- **Recent Updates:** Backpack storage system, dialogue choices, code cleanup (June 2026)
+- **Recent Updates:** Bus bench, healing cooler, health bug fix (June 2026)
 - **Tech Stack:** No frameworks, no build tools, pure vanilla
 - **Repo:** github.com/magmacrunchmedia/balladofbandaniel
 
@@ -795,6 +829,9 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - NPC dialogue supports multi-line arrays with context awareness + choice system
 - Backpack system: equip via dialogue choice, B key toggles central overlay
 - **Backpack stores 6 items, persists in STORAGE_DATA** ✅
+- **Bus bench stores unlimited items, 5-tile-wide prop** ✅
+- **Healing cooler: soda +15 HP, beer +25 HP via dialogue choice** ✅
+- **Health system: player.health used everywhere (fixed dual bug)** ✅
 - **Dialogue choices: Up/Down navigate, SPACE selects (check display==='block')** ✅
 - **All notifications use dialogue box (showDialogue), not showMessage** ✅
 - Dropped items system: X key drops 2 tiles ahead, auto-pickup on collision
@@ -842,9 +879,9 @@ These files exist from earlier prototype phases but are not loaded in the game:
 
 ---
 
-**Last Updated:** June 9, 2026
-**Version:** Backpack Storage System & Dialogue Choices Complete
-**Next Milestone:** Chest sizing, healing cooler, port-o-potty collision fix, prop collision fixes
+**Last Updated:** June 10, 2026
+**Version:** Bus Bench, Healing Cooler & Health Fix Complete
+**Next Milestone:** Prop collision fixes, psychedelic bus decorations, port-o-potty collision fix
 
 ---
 

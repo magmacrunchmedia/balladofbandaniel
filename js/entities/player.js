@@ -4,17 +4,15 @@
 const healthBarFill = document.getElementById('healthBarFill');
 const healthBarText = document.getElementById('healthBarText');
 
-// Player stats
-let playerHealth = 100;
-const maxHealth = 100;
 let damageCooldown = 0;
 
 function updateHealthBar() {
-    const healthPercent = (playerHealth / maxHealth) * 100;
+    if (typeof player === 'undefined') return;
+    const healthPercent = (player.health / player.maxHealth) * 100;
     
     // Update deprecated health bar (if elements exist)
     if (healthBarFill) healthBarFill.style.width = healthPercent + '%';
-    if (healthBarText) healthBarText.textContent = `${playerHealth} / ${maxHealth}`;
+    if (healthBarText) healthBarText.textContent = `${player.health} / ${player.maxHealth}`;
     
     // Change color based on health
     if (healthBarFill) {
@@ -28,17 +26,19 @@ function updateHealthBar() {
     }
     
     // Check for game over
-    if (playerHealth <= 0) {
+    if (player.health <= 0) {
         triggerGameOver();
     }
 }
 
 function damagePlayer(amount) {
-    playerHealth = Math.max(0, playerHealth - amount);
+    player.health = Math.max(0, player.health - amount);
     updateHealthBar();
+    if (typeof onHealthChanged === 'function') onHealthChanged();
 }
 
 function healPlayer(amount) {
-    playerHealth = Math.min(maxHealth, playerHealth + amount);
+    player.health = Math.min(player.maxHealth, player.health + amount);
     updateHealthBar();
+    if (typeof onHealthChanged === 'function') onHealthChanged();
 }

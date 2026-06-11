@@ -14,8 +14,9 @@ function triggerGameOver() {
 
 function restartGame() {
     // Reset player health
-    playerHealth = maxHealth;
+    player.health = player.maxHealth;
     updateHealthBar();
+    if (typeof onHealthChanged === 'function') onHealthChanged();
     
     // Reset player position and movement state
     player.x = player.targetX = 20;

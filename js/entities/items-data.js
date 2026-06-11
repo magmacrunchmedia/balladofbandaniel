@@ -35,6 +35,16 @@ const ITEM_TYPES = {
         canDrop: true,
         canStore: false,
     },
+
+    cigarettes: {
+        id: 'cigarettes',
+        name: 'Cigarettes (1 left)',
+        description: 'A crumpled pack of cigarettes. Only one left.',
+        sprite: 'cigarettes',
+        required: false,
+        canDrop: true,
+        canStore: true,
+    },
 };
 
 /* =====================================================
@@ -64,6 +74,14 @@ const itemsOutside = [
         // ✅ MOVED CLOSER: 5 tiles right of spawn
         x: 37,
         y: 42,
+        collected: false,
+        map: 'outside',
+    },
+    {
+        type: ITEM_TYPES.cigarettes,
+        // Near the campfire
+        x: 19,
+        y: 60,
         collected: false,
         map: 'outside',
     },

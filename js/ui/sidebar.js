@@ -127,6 +127,8 @@ function renderHandItem(slotId, itemData) {
         drawKeysInHand(ctx, centerX, centerY, sidebarAnimFrame);
     } else if (itemData.type.sprite === 'flashlight') {
         drawFlashlightInHand(ctx, centerX, centerY, sidebarAnimFrame);
+    } else if (itemData.type.sprite === 'cigarettes') {
+        drawCigarettesInHand(ctx, centerX, centerY, sidebarAnimFrame);
     }
 }
 
@@ -250,6 +252,55 @@ function drawFlashlightInHand(ctx, centerX, centerY, frame) {
     ctx.fillStyle = '#000000';
     ctx.fillRect(centerX + 2, y - 3, 2, 2);
     
+    ctx.restore();
+}
+
+/**
+ * Draw cigarettes in hand slot (adapted from items.js)
+ */
+function drawCigarettesInHand(ctx, centerX, centerY, frame) {
+    // Gentle floating animation
+    const floatOffset = Math.sin(frame * 0.05) * 1.5;
+    const y = centerY + floatOffset;
+
+    const scale = 1.3;
+
+    ctx.save();
+    ctx.translate(centerX, y);
+    ctx.scale(scale, scale);
+    ctx.translate(-centerX, -y);
+
+    // Pack body (white with red stripe)
+    ctx.fillStyle = '#f5f5f5';
+    ctx.fillRect(centerX - 5, y - 4, 10, 8);
+
+    // Red stripe across top
+    ctx.fillStyle = '#d32f2f';
+    ctx.fillRect(centerX - 5, y - 4, 10, 3);
+
+    // Pack outline
+    ctx.strokeStyle = '#9e9e9e';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(centerX - 5, y - 4, 10, 8);
+
+    // Opening flap
+    ctx.fillStyle = '#e0e0e0';
+    ctx.fillRect(centerX - 4, y - 5, 8, 2);
+    ctx.strokeStyle = '#bdbdbd';
+    ctx.strokeRect(centerX - 4, y - 5, 8, 2);
+
+    // Single cigarette sticking out
+    ctx.fillStyle = '#fff9c4';
+    ctx.fillRect(centerX - 1, y - 9, 2, 5);
+
+    // Cigarette filter
+    ctx.fillStyle = '#e65100';
+    ctx.fillRect(centerX - 1, y - 9, 2, 2);
+
+    // Cigarette tip
+    ctx.fillStyle = '#f5f5f5';
+    ctx.fillRect(centerX - 1, y - 4, 2, 1);
+
     ctx.restore();
 }
 

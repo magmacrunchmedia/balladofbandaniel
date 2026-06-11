@@ -512,6 +512,69 @@ function drawChest(ctx, x, y, tileSize) {
     ctx.fillRect(x + 2, y + 5, 2, tileSize - 7);
 }
 
+/**
+ * Draws a long bus bench (5 tiles wide × 1 tile tall)
+ */
+function drawBusBench(ctx, x, y, tileSize) {
+    const totalWidth = tileSize * 5;
+    
+    // Metal frame/legs (dark grey)
+    ctx.fillStyle = '#424242';
+    // Left leg
+    ctx.fillRect(x + 2, y + 12, 2, 4);
+    // Right leg
+    ctx.fillRect(x + totalWidth - 4, y + 12, 2, 4);
+    // Middle legs
+    ctx.fillRect(x + tileSize * 2 + 7, y + 12, 2, 4);
+    ctx.fillRect(x + tileSize * 3 + 7, y + 12, 2, 4);
+    
+    // Metal frame rail (silver)
+    ctx.fillStyle = '#9e9e9e';
+    ctx.fillRect(x + 2, y + 11, totalWidth - 4, 1);
+    
+    // Seat cushion (dark vinyl blue-grey)
+    ctx.fillStyle = '#455a64';
+    ctx.fillRect(x + 1, y + 5, totalWidth - 2, 6);
+    
+    // Seat cushion highlight (lighter)
+    ctx.fillStyle = '#546e7a';
+    ctx.fillRect(x + 1, y + 5, totalWidth - 2, 2);
+    
+    // Seat cushion stitching lines (subtle vertical)
+    ctx.fillStyle = '#37474f';
+    for (let i = 1; i < 5; i++) {
+        ctx.fillRect(x + tileSize * i, y + 5, 1, 6);
+    }
+    
+    // Backrest (darker vinyl)
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(x + 1, y + 1, totalWidth - 2, 5);
+    
+    // Backrest highlight
+    ctx.fillStyle = '#455a64';
+    ctx.fillRect(x + 1, y + 1, totalWidth - 2, 1);
+    
+    // Backrest stitching lines
+    ctx.fillStyle = '#2c3e50';
+    for (let i = 1; i < 5; i++) {
+        ctx.fillRect(x + tileSize * i, y + 1, 1, 5);
+    }
+    
+    // Armrests on ends (metal)
+    ctx.fillStyle = '#757575';
+    ctx.fillRect(x, y + 3, 2, 3);
+    ctx.fillRect(x + totalWidth - 2, y + 3, 2, 3);
+    
+    // Armrest highlights
+    ctx.fillStyle = '#9e9e9e';
+    ctx.fillRect(x, y + 3, 2, 1);
+    ctx.fillRect(x + totalWidth - 2, y + 3, 2, 1);
+    
+    // Bottom edge shadow
+    ctx.fillStyle = '#263238';
+    ctx.fillRect(x + 1, y + 11, totalWidth - 2, 1);
+}
+
 // Export all camping prop drawing functions
 window.CampingProps = {
     drawSleepingBag,
@@ -526,5 +589,6 @@ window.CampingProps = {
     drawCampingMat,
     drawFirstAidKit,
     drawCampingFlashlight,
-    drawChest
+    drawChest,
+    drawBusBench
 };

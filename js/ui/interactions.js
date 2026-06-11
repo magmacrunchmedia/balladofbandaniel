@@ -371,6 +371,8 @@ function checkPropInteraction() {
                     if (typeof handlePortOPottyInteraction === 'function') {
                         handlePortOPottyInteraction(prop.key);
                     }
+                } else if (prop.interactType === 'healingCooler') {
+                    handleHealingCoolerInteraction();
                 } else if (prop.storageItem) {
                     // Handle storage interaction
                     handleStorageInteraction(prop);
@@ -602,6 +604,64 @@ function updateInteractPrompt() {
     } catch (error) {
         console.error('❌ ERROR in updateInteractPrompt:', error);
     }
+}
+
+/**
+ * Handle healing cooler interaction — offers soda or beer
+ */
+function handleHealingCoolerInteraction() {
+    const currentHP = player.health;
+    const maxHP = player.maxHealth;
+
+    if (currentHP >= maxHP) {
+        showDialogue({
+            name: 'Cooler',
+            dialogue: ['You\'re already at full health. Save some for later.'],
+            currentDialogue: 0
+        });
+        return;
+    }
+
+    const choices = [
+        {
+            label: 'Soda  (+15 HP)',
+            callback: function() {
+                healPlayer(15);
+                showDialogue({
+                    name: 'Cooler',
+                    dialogue: ['*psssst* Ahhhh, that\'s the stuff. +15 HP'],
+                    currentDialogue: 0
+                });
+            }
+        },
+        {
+            label: 'Beer  (+25 HP)',
+            callback: function() {
+                healPlayer(25);
+                showDialogue({
+                    name: 'Cooler',
+                    dialogue: ['Ice cold. You feel refreshed. +25 HP'],
+                    currentDialogue: 0
+                });
+            }
+        },
+        {
+            label: 'No thanks',
+            callback: function() {
+                showDialogue({
+                    name: 'Cooler',
+                    dialogue: ['Maybe later.'],
+                    currentDialogue: 0
+                });
+            }
+        }
+    ];
+
+    showDialogue({
+        name: 'Cooler',
+        dialogue: ['The cooler is stocked with cold beverages.'],
+        currentDialogue: 0
+    }, null, choices);
 }
 
 // Add storage close button handler

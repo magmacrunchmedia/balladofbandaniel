@@ -5,7 +5,7 @@
 // Storage data - items stored in containers
 const STORAGE_DATA = {
     bussy_backpack: [],  // Array of stored item IDs
-    bussy_chest: []      // Array of stored item IDs (unlimited capacity)
+    bussy_bench: []      // Array of stored item IDs (unlimited capacity)
 };
 
 /**
