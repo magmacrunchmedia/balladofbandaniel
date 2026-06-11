@@ -431,6 +431,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - **Backpack storage system (equip from da Bussy, 6-item capacity, B key overlay)** ✅
 - **Bus bench storage (5-tile bench with unlimited storage)** ✅
 - **Healing cooler (soda +15 HP, beer +25 HP via dialogue choice)** ✅
+- **Cigarettes item (1 left) — collectible near campfire** ✅
 - **Dialogue choice system (Up/Down navigate, SPACE selects)** ✅
 - **Context-aware multi-line NPC dialogue** ✅
 - **Facing-based interaction detection (works from all 4 sides)** ✅
@@ -477,9 +478,14 @@ These files exist from earlier prototype phases but are not loaded in the game:
 
 #### Healing Cooler
 5. ✅ Cooler now interactive — "Press SPACE for a healing beverage"
-6. ✅ Dialogue choice: Soda (+15 HP) or Beer (+25 HP)
+6. ✅ Dialogue choice: Soda (+15 HP) or Beer (+25 HP) or No thanks
 7. ✅ Uses dialogue choice system (Up/Down + SPACE)
 8. ✅ Full health check — no beverages if already at max HP
+
+#### Cigarettes Item
+9. ✅ New item: "Cigarettes (1 left)" — crumpled pack near campfire
+10. ✅ World sprite: white pack with red stripe, one cigarette sticking out
+11. ✅ Sidebar sprite at 1.3x scale for hand slot display
 
 #### Health System Fix
 9. ✅ Fixed dual health bug — `damagePlayer()`/`healPlayer()` now modify `player.health`
