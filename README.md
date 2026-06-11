@@ -432,6 +432,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 - **Bus bench storage (5-tile bench with unlimited storage)** ✅
 - **Healing cooler (soda +15 HP, beer +25 HP via dialogue choice)** ✅
 - **Cigarettes item (1 left) — collectible near campfire** ✅
+- **Strawberto's monocle quest (find in ELEKTRA's tent, return for key clue)** ✅
 - **Dialogue choice system (Up/Down navigate, SPACE selects)** ✅
 - **Context-aware multi-line NPC dialogue** ✅
 - **Facing-based interaction detection (works from all 4 sides)** ✅
@@ -486,6 +487,17 @@ These files exist from earlier prototype phases but are not loaded in the game:
 9. ✅ New item: "Cigarettes (1 left)" — crumpled pack near campfire
 10. ✅ World sprite: white pack with red stripe, one cigarette sticking out
 11. ✅ Sidebar sprite at 1.3x scale for hand slot display
+
+#### Strawberto's Monocle Quest
+12. ✅ New quest item: "Strawberto's Monocle" in ELEKTRA's tent
+13. ✅ Return to Strawberto → dialogueWithMonocle triggers, sprite updates to show monocle
+14. ✅ Quest completion: monocle removed from inventory, STRAWBERTO_QUEST flag set
+15. ✅ Strawberto's new dialogue mentions keys in port-o-potty with "Occupado" sign
+16. ✅ Gold monocle with chain sprite (world + sidebar)
+
+#### Dialogue System Fix
+17. ✅ Fixed advanceDialogue() — now reads stored _activeDialogue instead of re-checking default
+18. ✅ Prevents old dialogue from appearing after special dialogue (monocle, keys)
 
 #### Health System Fix
 9. ✅ Fixed dual health bug — `damagePlayer()`/`healPlayer()` now modify `player.health`
