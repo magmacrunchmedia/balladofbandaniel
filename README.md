@@ -446,6 +446,7 @@ These files exist from earlier prototype phases but are not loaded in the game:
 ### ⚠️ Known Issues (In Progress)
 1. **Prop collision** - Camping props in Tent #2 and outside map can be walked through
 2. **Tent entrance z-ordering** - Brief visual glitch during transition cooldown
+3. **Port-o-potty interior collision** - Player may be able to walk through the bottom wall. Dual-layer collision (tile + prop) has been restored to match tent pattern, but issue may persist. Debug logs added to `collision.js` — check browser console when testing.
 
 ### 🔧 Next Steps (Priority Order)
 

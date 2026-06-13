@@ -62,11 +62,20 @@ function isSolid(x, y) {
     else if (currentMap === 'portoLetty2Interior') currentProps = propsPortoLetty2Interior;
     else if (currentMap === 'portoLetty3Interior') currentProps = propsPortoLetty3Interior;
     
+    if (currentMap.startsWith('portoLetty') && currentProps.length === 0) {
+        console.error('⚠️ Porto potty collision array is EMPTY for', currentMap);
+    }
+    
     for (let i = 0; i < currentProps.length; i++) {
         const prop = currentProps[i];
         if (checkX === prop.x && checkY === prop.y) {
             return true;
         }
+    }
+    
+    // DEBUG: Log when player is near bottom wall of port-o-potty
+    if (currentMap.startsWith('portoLetty') && checkY >= 57 && checkY <= 58) {
+        console.log(`isSolid(${checkX}, ${checkY}) on ${currentMap}: tile=${tile}, props=${currentProps.length}, solid=${SOLID_TILES.includes(tile)}`);
     }
     
     return SOLID_TILES.includes(tile);

@@ -575,6 +575,116 @@ function drawBusBench(ctx, x, y, tileSize) {
     ctx.fillRect(x + 1, y + 11, totalWidth - 2, 1);
 }
 
+/**
+ * Draws a 4×2 coffee booth (outdoor festival style)
+ */
+function drawCoffeeBooth(ctx, x, y, tileSize) {
+    const totalWidth = tileSize * 4;
+    const totalHeight = tileSize * 2;
+    
+    // === AWNING (above counter, decorative) ===
+    // Red and white stripes
+    const awningY = y - 4;
+    for (let i = 0; i < 8; i++) {
+        ctx.fillStyle = i % 2 === 0 ? '#d32f2f' : '#ffffff';
+        ctx.fillRect(x + i * (totalWidth / 8), awningY, totalWidth / 8, 5);
+    }
+    // Awning scalloped edge
+    ctx.fillStyle = '#d32f2f';
+    for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.arc(x + i * (totalWidth / 8) + totalWidth / 16, awningY + 5, 3, 0, Math.PI);
+        ctx.fill();
+    }
+    
+    // === COUNTER (back row, dy=0) ===
+    // Wooden counter surface
+    ctx.fillStyle = '#8d6e63';
+    ctx.fillRect(x, y, totalWidth, tileSize);
+    
+    // Counter top highlight
+    ctx.fillStyle = '#a1887f';
+    ctx.fillRect(x, y, totalWidth, 2);
+    
+    // Counter front panel
+    ctx.fillStyle = '#6d4c41';
+    ctx.fillRect(x, y + tileSize - 3, totalWidth, 3);
+    
+    // Wood grain lines
+    ctx.fillStyle = '#795548';
+    ctx.fillRect(x + 10, y + 4, 1, tileSize - 7);
+    ctx.fillRect(x + 30, y + 4, 1, tileSize - 7);
+    ctx.fillRect(x + 50, y + 4, 1, tileSize - 7);
+    
+    // === COFFEE MACHINE (left side of counter) ===
+    // Machine body
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(x + 3, y + 2, 18, 10);
+    
+    // Machine top
+    ctx.fillStyle = '#455a64';
+    ctx.fillRect(x + 3, y + 1, 18, 2);
+    
+    // Coffee pot (glass)
+    ctx.fillStyle = '#4e342e';
+    ctx.fillRect(x + 7, y + 5, 8, 6);
+    
+    // Coffee liquid
+    ctx.fillStyle = '#3e2723';
+    ctx.fillRect(x + 8, y + 6, 6, 4);
+    
+    // Steam wisps (animated feel)
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillRect(x + 9, y - 1, 1, 2);
+    ctx.fillRect(x + 12, y - 2, 1, 3);
+    
+    // Hot plate light
+    ctx.fillStyle = '#f44336';
+    ctx.fillRect(x + 18, y + 5, 2, 2);
+    
+    // === CHALKBOARD MENU (right side of counter) ===
+    // Board frame
+    ctx.fillStyle = '#5d4037';
+    ctx.fillRect(x + 38, y + 1, 22, 12);
+    
+    // Board surface (dark green/black)
+    ctx.fillStyle = '#1b5e20';
+    ctx.fillRect(x + 39, y + 2, 20, 10);
+    
+    // Chalk text squiggles
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillRect(x + 41, y + 4, 8, 1);
+    ctx.fillRect(x + 41, y + 6, 12, 1);
+    ctx.fillRect(x + 41, y + 8, 6, 1);
+    ctx.fillRect(x + 41, y + 10, 10, 1);
+    
+    // === FRONT ROW SIDES (dy=1) ===
+    // Left side panel
+    ctx.fillStyle = '#8d6e63';
+    ctx.fillRect(x, y + tileSize, tileSize, tileSize);
+    ctx.fillStyle = '#a1887f';
+    ctx.fillRect(x, y + tileSize, tileSize, 1);
+    
+    // Right side panel
+    ctx.fillStyle = '#8d6e63';
+    ctx.fillRect(x + tileSize * 3, y + tileSize, tileSize, tileSize);
+    ctx.fillStyle = '#a1887f';
+    ctx.fillRect(x + tileSize * 3, y + tileSize, tileSize, 1);
+    
+    // === CUP (sitting on counter) ===
+    // Small coffee cup
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(x + 25, y + 6, 5, 5);
+    ctx.fillStyle = '#4e342e';
+    ctx.fillRect(x + 26, y + 7, 3, 3);
+    // Cup handle
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(x + 31, y + 9, 2, -Math.PI/2, Math.PI/2);
+    ctx.stroke();
+}
+
 // Export all camping prop drawing functions
 window.CampingProps = {
     drawSleepingBag,
@@ -590,5 +700,6 @@ window.CampingProps = {
     drawFirstAidKit,
     drawCampingFlashlight,
     drawChest,
-    drawBusBench
+    drawBusBench,
+    drawCoffeeBooth
 };

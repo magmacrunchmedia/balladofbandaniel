@@ -142,5 +142,69 @@ const npcs = [
         ],
         currentDialogue: 0,
         isShop: false
+    },
+
+    // =====================
+    // COFFEE BOOTH NPCs
+    // =====================
+
+    // Barista - trades cigarettes for coffee
+    {
+        id: 'coffee-guy',
+        x: 49,
+        y: 21,
+        width: 1,
+        height: 1,
+        name: 'COFFEE GUY',
+        type: 'coffee-guy',
+        map: 'outside',
+        direction: 'down',
+        dialogue: [
+            "Welcome! What can I get you?",
+            "Hmm, no cigarettes? There's a pack somewhere near the campfire. Bring it back and we'll talk."
+        ],
+        dialogueWithCigarettes: [
+            "Welcome! What can I get you?"
+        ],
+        currentDialogue: 0,
+        isShop: false
+    },
+
+    // Queue NPC 1 - impatient
+    {
+        id: 'queue-npc-1',
+        x: 48,
+        y: 25,
+        width: 1,
+        height: 1,
+        name: 'BERRY',
+        type: 'blueberry',
+        map: 'outside',
+        direction: 'up',
+        dialogue: [
+            "Man, I've been waiting forever...",
+            "Is this line moving or what?"
+        ],
+        currentDialogue: 0,
+        isShop: false
+    },
+
+    // Queue NPC 2 - excited
+    {
+        id: 'queue-npc-2',
+        x: 49,
+        y: 25,
+        width: 1,
+        height: 1,
+        name: 'GRAPE GARY',
+        type: 'grape',
+        map: 'outside',
+        direction: 'up',
+        dialogue: [
+            "I heard the coffee here is amazing.",
+            "Worth the wait!"
+        ],
+        currentDialogue: 0,
+        isShop: false
     }
 ];

@@ -30,6 +30,15 @@ function drawSprite(type, x, y, direction, frame, gameFrame) {
         case 'chuck-cherry':
             drawChuckCherry(ctx, x, y, direction, frame);
             break;
+        case 'coffee-guy':
+            drawCoffeeGuy(ctx, x, y, direction, frame);
+            break;
+        case 'blueberry':
+            drawBlueberry(ctx, x, y, direction, frame);
+            break;
+        case 'grape':
+            drawGrape(ctx, x, y, direction, frame);
+            break;
             // Fallback
             ctx.fillStyle = '#ff00ff';
             ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);

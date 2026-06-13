@@ -169,6 +169,28 @@ const SMALL_PROPS = {
         description: 'Another portable toilet. The line is probably long.'
     },
 
+    // =====================
+    // COFFEE BOOTH (outside)
+    // =====================
+
+    coffeeBooth: {
+        x: 48,
+        y: 22,
+        width: 4,
+        height: 2,
+        type: 'campingProp',
+        drawFunction: 'drawCoffeeBooth',
+        map: 'outside',
+        solidTiles: [
+            // Back row (dy=0) — fully solid counter
+            {dx: 0, dy: 0}, {dx: 1, dy: 0}, {dx: 2, dy: 0}, {dx: 3, dy: 0},
+            // Front row sides (dy=1) — open center for player
+            {dx: 0, dy: 1}, {dx: 3, dy: 1}
+        ],
+        name: 'Coffee Booth',
+        description: 'A steaming coffee booth. Smells amazing.'
+    },
+
     // PORT-O-POTTY #5 - Corrected collision boundaries
     // NOTE: This one has height: 4, but collision still at rows 1-2
     portoLetty5: {

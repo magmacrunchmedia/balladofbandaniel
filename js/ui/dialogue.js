@@ -120,6 +120,75 @@ function showDialogue(npc, onCloseCallback, choices) {
         }
     }
 
+    // Check if barista has cigarettes dialogue (trade system)
+    if (npc.dialogueWithCigarettes && typeof playerInventory !== 'undefined') {
+        const hasCigs = (playerInventory.leftHand && playerInventory.leftHand.type.id === 'cigarettes') ||
+                        (playerInventory.rightHand && playerInventory.rightHand.type.id === 'cigarettes') ||
+                        (typeof playerInventory.hasInStorage === 'function' && playerInventory.hasInStorage('cigarettes'));
+        if (hasCigs) {
+            rawDialogue = npc.dialogueWithCigarettes;
+            // Provide trade choices
+            if (!choices || choices.length === 0) {
+                choices = [
+                    {
+                        label: 'Coffee (+15 HP)',
+                        callback: function() {
+                            // Remove cigarettes
+                            if (playerInventory.leftHand && playerInventory.leftHand.type.id === 'cigarettes') {
+                                playerInventory.leftHand = null;
+                            } else if (playerInventory.rightHand && playerInventory.rightHand.type.id === 'cigarettes') {
+                                playerInventory.rightHand = null;
+                            } else if (typeof playerInventory.removeFromStorage === 'function') {
+                                playerInventory.removeFromStorage('cigarettes');
+                            }
+                            if (typeof updateHandsDisplay === 'function') updateHandsDisplay();
+                            // Heal player
+                            if (typeof healPlayer === 'function') healPlayer(15);
+                            // Show result
+                            showDialogue({
+                                name: 'COFFEE GUY',
+                                dialogue: ['Ahh, that hits the spot. +15 HP'],
+                                currentDialogue: 0
+                            });
+                        }
+                    },
+                    {
+                        label: 'Large Coffee (+30 HP)',
+                        callback: function() {
+                            // Remove cigarettes
+                            if (playerInventory.leftHand && playerInventory.leftHand.type.id === 'cigarettes') {
+                                playerInventory.leftHand = null;
+                            } else if (playerInventory.rightHand && playerInventory.rightHand.type.id === 'cigarettes') {
+                                playerInventory.rightHand = null;
+                            } else if (typeof playerInventory.removeFromStorage === 'function') {
+                                playerInventory.removeFromStorage('cigarettes');
+                            }
+                            if (typeof updateHandsDisplay === 'function') updateHandsDisplay();
+                            // Heal player
+                            if (typeof healPlayer === 'function') healPlayer(30);
+                            // Show result
+                            showDialogue({
+                                name: 'COFFEE GUY',
+                                dialogue: ['Now we\'re talking. +30 HP'],
+                                currentDialogue: 0
+                            });
+                        }
+                    },
+                    {
+                        label: 'No thanks',
+                        callback: function() {
+                            showDialogue({
+                                name: 'COFFEE GUY',
+                                dialogue: ['Come back anytime!'],
+                                currentDialogue: 0
+                            });
+                        }
+                    }
+                ];
+            }
+        }
+    }
+
     // Safety fallback
     if (!rawDialogue) {
         console.warn("No dialogue found for interaction");

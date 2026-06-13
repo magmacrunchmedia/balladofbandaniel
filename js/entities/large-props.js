@@ -371,56 +371,40 @@ const LARGE_STRUCTURES = {
     // PORT-O-POTTY INTERIOR WALLS (collision only, no visual)
     // =====================
 
-    // PortoLetty1 Interior Walls
     portoLetty1InteriorWalls: {
         x: 73, y: 54, width: 4, height: 5,
         type: 'porto_potty_walls',
         map: 'portoLetty1Interior',
         solidTiles: [
-            // Top wall (dy=0)
             {dx:0,dy:0}, {dx:1,dy:0}, {dx:2,dy:0}, {dx:3,dy:0},
-            // Left wall (dx=0)
             {dx:0,dy:1}, {dx:0,dy:2}, {dx:0,dy:3}, {dx:0,dy:4},
-            // Right wall (dx=3)
             {dx:3,dy:1}, {dx:3,dy:2}, {dx:3,dy:3}, {dx:3,dy:4},
-            // Bottom wall (dy=4) — fully blocked, door exit is at dy=3 via trigger
             {dx:0,dy:4}, {dx:1,dy:4}, {dx:2,dy:4}, {dx:3,dy:4}
         ]
     },
 
-    // PortoLetty2 Interior Walls
     portoLetty2InteriorWalls: {
         x: 73, y: 54, width: 4, height: 5,
         type: 'porto_potty_walls',
         map: 'portoLetty2Interior',
         solidTiles: [
-            // Top wall (dy=0)
             {dx:0,dy:0}, {dx:1,dy:0}, {dx:2,dy:0}, {dx:3,dy:0},
-            // Left wall (dx=0)
             {dx:0,dy:1}, {dx:0,dy:2}, {dx:0,dy:3}, {dx:0,dy:4},
-            // Right wall (dx=3)
             {dx:3,dy:1}, {dx:3,dy:2}, {dx:3,dy:3}, {dx:3,dy:4},
-            // Bottom wall (dy=4) — fully blocked
             {dx:0,dy:4}, {dx:1,dy:4}, {dx:2,dy:4}, {dx:3,dy:4}
         ]
     },
 
-    // PortoLetty3 Interior Walls
     portoLetty3InteriorWalls: {
         x: 73, y: 54, width: 4, height: 5,
         type: 'porto_potty_walls',
         map: 'portoLetty3Interior',
         solidTiles: [
-            // Top wall (dy=0)
             {dx:0,dy:0}, {dx:1,dy:0}, {dx:2,dy:0}, {dx:3,dy:0},
-            // Left wall (dx=0)
             {dx:0,dy:1}, {dx:0,dy:2}, {dx:0,dy:3}, {dx:0,dy:4},
-            // Right wall (dx=3)
             {dx:3,dy:1}, {dx:3,dy:2}, {dx:3,dy:3}, {dx:3,dy:4},
-            // Bottom wall (dy=4) — fully blocked
             {dx:0,dy:4}, {dx:1,dy:4}, {dx:2,dy:4}, {dx:3,dy:4}
         ]
     }
-
 
 };
