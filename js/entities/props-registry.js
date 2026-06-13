@@ -84,6 +84,15 @@ let propsTentInterior3 = generatePropCollisionTiles()
 let propsBussyInterior = generatePropCollisionTiles()
     .filter(tile => tile.map === 'bussyInterior');
 
+let propsPortoLetty1Interior = generatePropCollisionTiles()
+    .filter(tile => tile.map === 'portoLetty1Interior');
+
+let propsPortoLetty2Interior = generatePropCollisionTiles()
+    .filter(tile => tile.map === 'portoLetty2Interior');
+
+let propsPortoLetty3Interior = generatePropCollisionTiles()
+    .filter(tile => tile.map === 'portoLetty3Interior');
+
 /**
  * Regenerate collision arrays (call when prop visibility changes)
  */
@@ -100,6 +109,12 @@ function regeneratePropCollisions() {
         .filter(tile => tile.map === 'tentInterior3');
     propsBussyInterior = generatePropCollisionTiles()
         .filter(tile => tile.map === 'bussyInterior');
+    propsPortoLetty1Interior = generatePropCollisionTiles()
+        .filter(tile => tile.map === 'portoLetty1Interior');
+    propsPortoLetty2Interior = generatePropCollisionTiles()
+        .filter(tile => tile.map === 'portoLetty2Interior');
+    propsPortoLetty3Interior = generatePropCollisionTiles()
+        .filter(tile => tile.map === 'portoLetty3Interior');
 }
 
 // DEBUG: Log bus interior collision tiles

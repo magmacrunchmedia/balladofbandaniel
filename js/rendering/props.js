@@ -28,7 +28,7 @@ function getPropsForMap(mapName) {
         if (prop.map !== mapName) continue;
         
         // Skip props that are just walls (no visual representation)
-        if (prop.type === 'tent_walls' || prop.type === 'bus_walls') {
+        if (prop.type === 'tent_walls' || prop.type === 'bus_walls' || prop.type === 'porto_potty_walls') {
             continue;
         }
         

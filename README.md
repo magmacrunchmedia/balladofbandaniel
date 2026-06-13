@@ -446,7 +446,6 @@ These files exist from earlier prototype phases but are not loaded in the game:
 ### ⚠️ Known Issues (In Progress)
 1. **Prop collision** - Camping props in Tent #2 and outside map can be walked through
 2. **Tent entrance z-ordering** - Brief visual glitch during transition cooldown
-3. **Port-o-potty interior collision** - Player can walk over bottom wall; walls visually misaligned with collision
 
 ### 🔧 Next Steps (Priority Order)
 
@@ -506,6 +505,12 @@ These files exist from earlier prototype phases but are not loaded in the game:
 #### Weapons System (Planned)
 20. ✅ Added finger guns concept to TODO — theatrical weapon, 0 damage, Z key attack
 21. ✅ Planned weapon progression: trivial (finger guns) → real weapons in future levels
+
+#### Port-o-Potty Collision Fix
+22. ✅ Added prop-based interior walls for all 3 enterable port-o-potties
+23. ✅ Bottom wall row (y=58) now fully blocked — player can no longer walk over it
+24. ✅ Door exit still works via trigger at (75, 57) — floor row
+25. ✅ Matches tent pattern (dual collision: tile-based + prop-based)
 
 #### Health System Fix
 9. ✅ Fixed dual health bug — `damagePlayer()`/`healPlayer()` now modify `player.health`

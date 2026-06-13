@@ -58,6 +58,9 @@ function isSolid(x, y) {
     else if (currentMap === 'tentInterior2') currentProps = propsTentInterior2;
     else if (currentMap === 'tentInterior3') currentProps = propsTentInterior3;
     else if (currentMap === 'bussyInterior') currentProps = propsBussyInterior;
+    else if (currentMap === 'portoLetty1Interior') currentProps = propsPortoLetty1Interior;
+    else if (currentMap === 'portoLetty2Interior') currentProps = propsPortoLetty2Interior;
+    else if (currentMap === 'portoLetty3Interior') currentProps = propsPortoLetty3Interior;
     
     for (let i = 0; i < currentProps.length; i++) {
         const prop = currentProps[i];
